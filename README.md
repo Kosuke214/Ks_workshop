@@ -24,7 +24,7 @@ DIYが好きで、色々作ってみています。<br>
 - DIYを通じて他者との交流を求める時
 -
 ## 設計書
-<実装機能リスト>
+**実装機能リスト** <br>
 https://docs.google.com/spreadsheets/d/1sDFA-bysiizFOR-8MYap9ffznt14VCtfltkselctySM/edit?usp=sharing
 
 ## 開発環境
