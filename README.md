@@ -22,7 +22,7 @@ DIYが好きで、色々作ってみています。<br>
 - 作り方を参考にする時
 - 必要な道具や使い方の参考にする時
 - DIYを通じて他者との交流を求める時
--
+
 ## 設計書
 **実装機能リスト** <br>
 https://docs.google.com/spreadsheets/d/1sDFA-bysiizFOR-8MYap9ffznt14VCtfltkselctySM/edit?usp=sharing
