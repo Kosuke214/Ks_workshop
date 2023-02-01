@@ -22,6 +22,14 @@ DIYが好きで、色々作ってみています。<br>
 - 作り方を参考にする時
 - 必要な道具や使い方の参考にする時
 - DIYを通じて他者との交流を求める時
-
-## 実装機能リストのURL
+-
+## 設計書
+<実装機能リスト>
 https://docs.google.com/spreadsheets/d/1sDFA-bysiizFOR-8MYap9ffznt14VCtfltkselctySM/edit?usp=sharing
+
+## 開発環境
+- OS：Linux(CentOS)
+- 言語：HTML,CSS,JavaScript,Ruby,SQL
+- フレームワーク：Ruby on Rails
+- JSライブラリ：jQuery
+- IDE：Cloud9
