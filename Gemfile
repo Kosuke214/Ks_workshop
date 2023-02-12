@@ -61,3 +61,5 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'ransack'
 
 gem 'devise'
+
+gem 'kaminari','~> 1.2.1'
