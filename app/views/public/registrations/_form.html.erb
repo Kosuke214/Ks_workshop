@@ -1,0 +1,72 @@
+<div class="user-form">
+  <div class="row">
+    <label class="col-3">会員氏名</label>
+    <div class="col-6">
+      <%= f.text_field :last_name, placeholder:"山田" %>
+      <%= f.text_field :first_name, placeholder:"太郎" %>
+    </div>
+  </div>
+</div>
+
+<div class="user-form">
+  <div class="row">
+    <label class="col-3">ニックネーム</label>
+    <div class="col-3">
+      <%= f.text_field :nickname, placeholder:"１５文字以内" %>
+    </div>
+  </div>
+</div>
+
+<div class="user-form">
+  <div class="row">
+    <label class="col-3">e-mail</label>
+    <div class="col-3">
+      <%= f.text_field :email, placeholder:"sample@gmail.com" %>
+    </div>
+  </div>
+</div>
+
+<div class="user-form">
+  <div class="row">
+    <label class="col-3">パスワード</label>
+    <div class="col-3">
+      <%= f.password_field :password, placeholder:"６文字以上２０文字以内" %>
+    </div>
+  </div>
+</div>
+
+<div class="user-form">
+  <div class="row">
+    <label class="col-3">パスワード（確認用）</label>
+    <div class="col-3">
+      <%= f.password_field :password_confirmation %>
+    </div>
+  </div>
+</div>
+
+<div class="user-form">
+  <div class="row">
+    <label class="col-3">プロフィール画像</label>
+    <div class="col-3">
+      <%= f.file_field :image,accept: "image/*", placeholder:"ファイルを選択" %>
+    </div>
+  </div>
+</div>
+
+<div class="user-form">
+  <div class="row">
+    <label class="col-3">DIY歴</label>
+    <div class="col-3">
+      <%= f.select :diy_history, User.diy_histories.keys.map {|k| [I18n.t("enums.user.diy_history.#{k}"), k]} %>
+    </div>
+  </div>
+</div>
+
+<div class="user-form">
+  <div class="row">
+    <label class="col-3">紹介文</label>
+    <div class="col-3">
+      <%= f.text_area :introduction, placeholder:"始めたばかりの初心者ですが、みなさんと一緒に上達していきたいと思います。", class: "form-control", style: "width:100%", rows: "5" %>
+    </div>
+  </div>
+</div>

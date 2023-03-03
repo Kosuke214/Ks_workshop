@@ -1,2 +1,42 @@
-<h1>Public::Posts#index</h1>
-<p>Find me in app/views/public/posts/index.html.erb</p>
+<div class="container">
+  <div class="col-sm-12 mx-auto">
+    <h3>投稿一覧</h3>
+
+<%#　部分テンプレートにする　#%>
+    <div class = "col-8 mx-auto">
+      <% @posts.each do |posts| %>
+        <div class = "row">
+          <%= link_to post_path(posts.id) do %>
+            <%= posts.title %>
+          <% end %>
+
+        </div>
+        <div class = "row">
+          <div class = "col-2">
+            <%#= posts.image_tag %>
+          </div>
+          <div class = "col-10">
+            <%= posts.post_text.truncate(30) %>
+          </div>
+        </div>
+        <div class = "row justify-content-end">
+          <% if posts.user.status == false %>
+            投稿者<p class="text-danger">退会済みです</p>
+          <% else %>
+            投稿者
+            <%= link_to user_path(posts.user_id) do %>
+              <%= posts.user.nickname %>
+            <% end %>
+            さん
+          <% end %>
+        </div>
+      <% end %>
+
+<%#　部分テンプレートにする　#%>
+
+    </div>
+
+    <div class="row justify-content-center"><%= paginate @posts %></div>
+
+  </div>
+</div>

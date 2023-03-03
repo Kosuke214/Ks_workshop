@@ -1,2 +1,60 @@
-<h1>Public::Posts#new</h1>
-<p>Find me in app/views/public/posts/new.html.erb</p>
+<%= form_with model: @post, url: posts_path, local: true do |f| %>
+
+  <div class="container">
+    <div class="col-sm-12 form-label mx-auto">
+      <h3><%= image_tag 'post.png', width: '5%', height: '5%' %>新規投稿</h3>
+
+      <%#= render :partial => "registrations/form", :locals => {:f => f}, user: @user %>
+      <%# 以下部分テンプレートにする %>
+
+        <div class="user-form">
+          <div class="row">
+            <label class="col-3">タイトル</label>
+            <div class="col-6">
+              <%= f.text_field :title, placeholder:"タイトル", class: "form-control", style: "width:100%" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-form">
+          <div class="row">
+            <label class="col-3">関連タグ</label>
+            <div class="col-6">
+              <%#= f.label :tag_list %>
+              <%= f.text_field :name,  placeholder:"箱 収納 簡単", class: "form-control", style: "width:100%" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-form">
+          <div class="row">
+            <label class="col-3">本文</label>
+            <div class="col-6">
+              <%= f.text_area :post_text, placeholder:"（本文）制作物の説明や工夫したポイントなどご記入ください。""また参考URLもあればこちらの本文に記載いただくとより参考になります。", class: "form-control", style: "width:100%", rows: "10" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-form">
+          <div class="row">
+            <label class="col-3">投稿画像</label>
+            <div class="col-6">
+              <%= f.file_field :image,accept: "image/*", placeholder:"ファイルを選択" %>
+            </div>
+          </div>
+        </div>
+
+        <%# ここまで部分テンプレートにする %>
+
+      <div class="actions">
+        <div class="col-9">
+          <div class="row justify-content-end">
+            <%#= f.hidden_field :user_id %>
+            <%= f.submit "投稿する" ,class:'btn btn-primary' %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>

@@ -1,8 +1,12 @@
-require "test_helper"
+# frozen_string_literal: true
 
-class Admin::HomesControllerTest < ActionDispatch::IntegrationTest
-  test "should get top" do
-    get admin_homes_top_url
-    assert_response :success
+require 'test_helper'
+
+module Admin
+  class HomesControllerTest < ActionDispatch::IntegrationTest
+    test 'should get top' do
+      get admin_homes_top_url
+      assert_response :success
+    end
   end
 end

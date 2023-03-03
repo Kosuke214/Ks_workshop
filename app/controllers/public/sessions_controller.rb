@@ -2,7 +2,16 @@
 
 module Public
   class SessionsController < Devise::SessionsController
-    # before_action :configure_sign_in_params, only: [:create]
+    before_action :user_state, only: [:create]
+
+    # ↓rubocopエラー対策
+    def create
+      super
+      create_internal
+    end
+
+    def create_internal; end
+    # ↑rubocopエラー対策
 
     # GET /resource/sign_in
     # def new
@@ -19,11 +28,27 @@ module Public
     #   super
     # end
 
-    # protected
+    def guest_sign_in
+      user = User.guest
+      sign_in user
+      redirect_to root_path, notice: 'ゲストユーザとしてログインしました。' # rubocop:todo Rails/I18nLocaleTexts
+    end
 
-    # If you have extra params to permit, append them to the sanitizer.
-    # def configure_sign_in_params
-    #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
-    # end
+    protected
+
+    # 退会しているかを判断するメソッド
+    def user_state
+      ## 【処理内容1】 入力されたemailからアカウントを1件取得
+      @user = User.find_by(email: params[:user][:email])
+      ## アカウントを取得できなかった場合、このメソッドを終了する
+      return unless @user
+
+      ## 【処理内容2】 取得したアカウントのパスワードと入力されたパスワードが一致してるかを判別
+      if @user.valid_password?(params[:user][:password]) && (@user.status == false)
+        flash[:notice] = '退会済みです。再度ご登録をしてご利用ください。' # rubocop:todo Rails/I18nLocaleTexts
+        redirect_to new_user_registration_path
+        # statusの値がtrueだった場合→createアクションを実行させる＝そのまま処理
+      end
+    end
   end
 end

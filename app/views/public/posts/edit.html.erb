@@ -1,2 +1,61 @@
-<h1>Public::Posts#edit</h1>
-<p>Find me in app/views/public/posts/edit.html.erb</p>
+<%= form_with model: @post, url: post_path, local: true do |f| %>
+
+  <div class="container">
+    <div class="col-sm-12 form-label mx-auto">
+      <h3><%= @post.user.nickname %>さんの投稿編集</h3>
+
+      <%#= render :partial => "registrations/form", :locals => {:f => f}, user: @user %>
+      <%# 以下部分テンプレートにする %>
+
+        <div class="user-form">
+          <div class="row">
+            <label class="col-3">タイトル</label>
+            <div class="col-6">
+              <%= f.text_field :title, class: "form-control", style: "width:100%" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-form">
+          <div class="row">
+            <label class="col-3">関連タグ</label>
+            <div class="col-6">
+              <%#= f.label :tag_list %>
+              <%= f.text_field :name, class: "form-control", style: "width:100%" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-form">
+          <div class="row">
+            <label class="col-3">本文</label>
+            <div class="col-6">
+              <%= f.text_area :post_text, class: "form-control", style: "width:100%", rows: "10" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-form">
+          <div class="row">
+            <label class="col-3">投稿画像</label>
+            <div class="col-6">
+              <%= f.file_field :image,accept: "image/*" %>
+            </div>
+          </div>
+        </div>
+
+        <%# ここまで部分テンプレートにする %>
+
+      <div class="actions">
+        <div class="col-9">
+          <div class="row justify-content-end">
+            <%#= f.hidden_field :user_id %>
+            <%= f.submit "更新" ,class:'btn btn-primary' %>
+            <%= link_to "削除", posts_soft_destroy_path, method: :patch, class:'btn btn-danger' %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>

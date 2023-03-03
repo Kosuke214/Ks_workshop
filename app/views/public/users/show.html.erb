@@ -1,2 +1,73 @@
-<h1>Public::Users#show</h1>
-<p>Find me in app/views/public/users/show.html.erb</p>
+<div class="container">
+  <div class="col-sm-12 mx-auto">
+    <h3><%= @user.nickname %>さんのページ</h3>
+
+    <div class = "row">
+      <div class = "col-3">
+        <div class = "row">
+          <label class = "form-label">ニックネーム</label>
+            <%= @user.nickname %>
+        </div>
+
+        <div class = "row">
+          <label>DIY歴</label>
+          <%= @user.diy_history_i18n %>
+        </div>
+
+        <div class = "row">
+          <label>紹介文</label>
+          <%= @user.introduction %>
+        </div>
+
+        <%= link_to " 編集 ", edit_user_path, class: 'btn btn-success mr-5' %>
+
+      </div>
+
+      <div class = "col-4">
+        <h5>投稿一覧</h5>
+
+        <% @posts.each do |posts| %>
+
+          <div class = "row">
+            <div class = "col-3">
+              <%#= posts.get_image %>
+            </div>
+            <div class = "col-9">
+              <div class = "row"><%= posts.title %></div>
+              <div class = "row"><%= posts.post_text.truncate(10) %></div>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="row justify-content-end">
+          <%= link_to "もっと見る >>", user_posts_path(@user) %>
+        </div>
+
+        <%= link_to "新規投稿", new_post_path, class:'btn btn-primary' %>
+
+      </div>
+
+      <div class = "col-4">
+        <h5>いいね(ブックマーク)一覧</h5>
+        <% @favorites.each do |favorites| %>
+          <div class = "row">
+            <div class = "col-3">
+              <%= favorites.post.get_image %>
+            </div>
+            <div class = "col-9">
+              <div class = "row"><%= favorites.post.title %></div>
+              <div class = "row"><%= favorites.post.post_text.truncate(10) %></div>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="row justify-content-end">
+          <%= link_to "もっと見る >>", "/favorites" %>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+</div>

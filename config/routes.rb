@@ -2,7 +2,9 @@
 
 Rails.application.routes.draw do
 
-  devise_for :admin, skip: [:registrations, :passwords], controllers: {
+  root to: 'public/homes#top'
+
+  devise_for :admin, skip: %i[registrations passwords], controllers: {
     sessions: 'admin/sessions'
   }
 
@@ -10,27 +12,38 @@ Rails.application.routes.draw do
     registrations: 'public/registrations',
     sessions: 'public/sessions'
   }
-  
-  root to: "public/homes#top"
 
-  scope module: :public do
-    resources :homes, only: [:top]
-    resources :users, only: [:show, :edit, :update, :unsubscribe, :withdraw]
-    resources :comments, only: [:show, :index, :create, :edit, :update, :destroy]
-    resources :posts, only: [:new, :show, :index, :create, :edit, :update, :destroy]
-    resources :favorites, only: [:show, :create, :update]
-
+  devise_scope :user do
+    post 'users/guest_sign_in', to: 'public/sessions#guest_sign_in'
   end
 
+    scope module: :public do
+      get "users/:id/posts" => "users#posts", as: 'user_posts'
+      get "users/unsubscribe" => "users#unsubscribe"
+      patch "users/withdraw" => "users#withdraw"
+      patch "comments/:id/soft_destroy" => "comments#soft_destroy", as: 'comments_soft_destroy'
+      patch "posts/:id/soft_destroy" => "posts#soft_destroy", as: 'posts_soft_destroy'
+
+      #resources :posts do #ransackのsearchアクション追加
+      #  collection do
+      #    get 'search'
+      #  end
+      #end
+
+      resources :homes, only: [:top]
+      resources :users, only: %i[show edit update]
+      resources :comments, only: %i[show index create edit update]
+      resources :posts, only: %i[new show index create edit update]
+      resources :favorites, only: %i[index create update]
+
+  end
 
   namespace :admin do
     resources :homes, only: [:top]
-    resources :users, only: [:index, :edit, :update]
-    resources :comments, only: [:edit, :update]
-    resources :posts, only: [:index, :show, :edit, :update]
-
+    resources :users, only: %i[index edit update]
+    resources :comments, only: %i[edit update]
+    resources :posts, only: %i[index show edit update]
   end
-
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

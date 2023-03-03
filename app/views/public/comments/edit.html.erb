@@ -1,2 +1,17 @@
-<h1>Public::Comments#edit</h1>
-<p>Find me in app/views/public/comments/edit.html.erb</p>
+<div class="container">
+  <div class="col-sm-12 mx-auto">
+    <h3><%= image_tag 'comment.png', width: '5%', height: '5%' %>コメント編集</h3>
+
+    <div class = "col-6 mx-auto">
+      <%= form_with model: @comment, url: comment_path, local: true do |f| %>
+        <%= f.text_area :comment_text, class: "form-control", style: "width:100%", rows: "10" %>
+
+        <div class="row justify-content-end">
+          <%= f.submit "更新" ,class:'btn btn-primary' %>
+          <%= link_to "削除", comments_soft_destroy_path, method: :patch, class:'btn btn-danger' %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

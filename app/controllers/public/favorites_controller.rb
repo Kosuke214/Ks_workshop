@@ -1,10 +1,11 @@
-class Public::FavoritesController < ApplicationController
-  def show
-  end
+# frozen_string_literal: true
 
-  def create
-  end
+module Public
+  class FavoritesController < ApplicationController
+    def index; end
 
-  def update
+    def create; end
+
+    def update; end
   end
 end

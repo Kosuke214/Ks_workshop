@@ -1,18 +1,22 @@
-require "test_helper"
+# frozen_string_literal: true
 
-class Public::FavoritesControllerTest < ActionDispatch::IntegrationTest
-  test "should get show" do
-    get public_favorites_show_url
-    assert_response :success
-  end
+require 'test_helper'
 
-  test "should get create" do
-    get public_favorites_create_url
-    assert_response :success
-  end
+module Public
+  class FavoritesControllerTest < ActionDispatch::IntegrationTest
+    test 'should get show' do
+      get public_favorites_show_url
+      assert_response :success
+    end
 
-  test "should get update" do
-    get public_favorites_update_url
-    assert_response :success
+    test 'should get create' do
+      get public_favorites_create_url
+      assert_response :success
+    end
+
+    test 'should get update' do
+      get public_favorites_update_url
+      assert_response :success
+    end
   end
 end

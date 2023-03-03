@@ -44,6 +44,7 @@ group :development do
   gem 'rack-mini-profiler', '~> 2.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'rubocop', require: false
+  gem 'rubocop-rails'
   gem 'spring'
 end
 
@@ -62,4 +63,7 @@ gem 'ransack'
 
 gem 'devise'
 
-gem 'kaminari','~> 1.2.1'
+gem 'kaminari', '~> 1.2.1'
+
+ gem "enum_help"
+

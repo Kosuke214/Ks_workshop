@@ -1,2 +1,23 @@
-<h1>Public::Users#unsubscribe</h1>
-<p>Find me in app/views/public/users/unsubscribe.html.erb</p>
+<div class="base-box">
+  <div class="row justify-content-center mb-3">
+    <h5><strong>退会前にご確認ください。</strong></h5>
+  </div>
+  <div class="justify-content-center">
+    <p class="text-center mb-0">退会すると、<%= current_user.nickname %>さんのこれまでの投稿や</p>
+    <p class="text-center mb-0">いいね(ブックマーク)やコメント等が全て閲覧できなくなります。</p>
+    <p class="text-center">本当に退会しますか？</p>
+  </div>
+
+  <div class="col-4 mx-auto">
+    <div class="row justify-content-center">
+      <div class="mr-2">
+        <%= link_to "退会しない", user_path(current_user), class:'btn btn-primary' %>
+      </div>
+      <div class="ml-2">
+        <%= form_with model: @user, url: users_withdraw_path, method: :patch, data: { confirm: '本当に退会しますか？' } do |f| %>
+          <%= f.submit " 退会する " ,class:'btn btn-danger' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

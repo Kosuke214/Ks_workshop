@@ -1,13 +1,22 @@
 inherit_from: .rubocop_todo.yml
 
+require:
+  - rubocop-rails   # rubocop-railsを適用
+
 # target_version:
 #   rubocop v0.34.2
 
 # 自動生成されるものはチェック対象から除外する
 AllCops:
+  NewCops: enable    # ← 新しい規約が登録された場合に、適用するかどうかの判定
   Exclude:
-    - "vendor/**/*" # rubocop config/default.yml
-    - "db/schema.rb"
+    - 'bin/**'
+    - 'node_modules/**/*'
+    - 'config/**/*'
+    - 'config.ru'
+    - 'db/schema.rb'
+    - 'db/seeds.rb'
+    - 'Gemfile'
   DisplayCopNames: true
 
 ##################### Style ##################################
@@ -161,6 +170,14 @@ Style/StringLiteralsInInterpolation:
 
 # いくらなんでも inject { |a, e| } は短すぎるので分かりやすい名前をつけたい
 Style/SingleLineBlockParams:
+  Enabled: false
+
+# Use nested module/class definitions instead of compact style. を無視
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# frozenエラーを回避
+Style/FrozenStringLiteralComment:
   Enabled: false
 
 # * migrate

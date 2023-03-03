@@ -1,2 +1,44 @@
-<h1>Admin::Users#index</h1>
-<p>Find me in app/views/admin/users/index.html.erb</p>
+<div class="container">
+  <div class="col-sm-12 mx-auto">
+    <h3><%= image_tag 'users.svg', width: '4%', height: '4%' %>ユーザ一覧</h3>
+
+    <div class = "col-8 mx-auto">
+      <table class="table table-striped w-100">
+        <thead>
+          <tr class="smoke">
+            <th>ユーザ名</th>
+            <th>ステータス</th>
+            <th>登録日</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @users.each do |user| %>
+            <tr class="border-bottom">
+              <td>
+                <%= link_to edit_admin_user_path(user.id), class:"customer_list" do %>
+                  <%= user.nickname %>
+                <% end %>
+              </td>
+              <td>
+                <% if user.status %>
+                  <p class="text-success font-weight-bold my-auto">有効</p>
+                <% else %>
+                  <p class="text-danger font-weight-bold my-auto">無効</p>
+                <% end %>
+              </td>
+              <td><%= user.created_at.strftime('%Y/%m/%d') %></td>
+            </tr>
+
+          <% end %>
+        </tbody>
+
+      </table>
+
+
+    </div>
+
+    <div class="row justify-content-center"><%= paginate @users %></div>
+
+  </div>
+</div>

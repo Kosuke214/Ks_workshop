@@ -1,2 +1,49 @@
-<h1>Public::Comments#index</h1>
-<p>Find me in app/views/public/comments/index.html.erb</p>
+<div class="container">
+  <div class="col-sm-12 mx-auto">
+    <h3><%= image_tag 'comment.png', width: '5%', height: '5%' %>コメント一覧</h3>
+
+<%#　部分テンプレートにする　#%>
+    <div class = "col-8 mx-auto">
+      <% @comments.each do |comment| %>
+        <% if comment.is_deleted == true %>
+          <% next %>
+        <% end %>
+        <div class = "row justify-content-end">
+          <%= comment.created_at.strftime('%Y/%m/%d') %>
+        </div>
+
+        <div class = "row">
+          <div class = "col-2">
+            <% if comment.user.status == false %>
+              <div class = "row">
+                <%#= posts.image_tag %>
+              </div>
+              <div class = "row">
+                投稿者<p class="text-danger">退会済みです</p>
+              </div>
+            <% else %>
+              <div class = "row">
+                <%#= posts.image_tag %>
+              </div>
+              <div class = "row">
+                <%= comment.user.nickname %>さん
+              </div>
+            <% end %>
+          </div>
+          <div class = "col-10">
+            <%= comment.comment_text.truncate(30) %>
+          </div>
+        </div>
+        <div class = "row justify-content-end">
+          <%= link_to "こちらのコメント詳細>>", comment_path(comment.id), class:"text-secondary" %>
+        </div>
+      <% end %>
+
+<%#　部分テンプレートにする　#%>
+
+    </div>
+
+    <div class="row justify-content-center"><%= paginate @comments %></div>
+
+  </div>
+</div>

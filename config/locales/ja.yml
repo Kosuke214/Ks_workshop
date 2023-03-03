@@ -1,0 +1,9 @@
+ja:
+  enums:
+    user:
+      diy_history:
+        half_year: "〜半年未満"
+        one_year: "半年〜１年"
+        two_years: "１〜２年"
+        three_years: "２〜３年"
+        over_three_years: "３年以上"

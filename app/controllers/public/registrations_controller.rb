@@ -5,6 +5,24 @@ module Public
     # before_action :configure_sign_up_params, only: [:create]
     # before_action :configure_account_update_params, only: [:update]
 
+    before_action :ensure_user, only: %i[update destroy]
+
+    # ↓rubocopエラー対策
+    def update
+      super
+      update_internal
+    end
+
+    def destroy
+      super
+      destroy_internal
+    end
+
+    def update_internal; end
+
+    def destroy_internal; end
+    # ↑rubocopエラー対策
+
     # GET /resource/sign_up
     # def new
     #   super
@@ -38,6 +56,13 @@ module Public
     # def cancel
     #   super
     # end
+
+    # 退会時、ゲストユーザか判断
+    def ensure_user
+      if resource.email == 'guest@example.com'
+        redirect_to root_path, alert: 'ゲストユーザは編集・退会できません。' # rubocop:todo Rails/I18nLocaleTexts
+      end
+    end
 
     # protected
 
