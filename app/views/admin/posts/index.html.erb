@@ -1,2 +1,59 @@
-<h1>Admin::Posts#index</h1>
-<p>Find me in app/views/admin/posts/index.html.erb</p>
+<div class="container">
+  <div class="col-sm-12 mx-auto">
+    <h3>投稿(検索)一覧</h3>
+
+<%#　部分テンプレートにする　#%>
+    <div class = "col-8 mx-auto">
+      <% @posts.each do |posts| %>
+        <% if posts.is_hidden == true %>
+          <% posts.hidden %>
+          <div class = "row">
+            <%= link_to admin_post_path(posts.id) do %> <%# 管理者のみリンクを設定 %>
+              <span class = "text-danger"><%= posts.title %></span>
+            <% end %>
+          </div>
+          <div class = "row">
+            <div class = "col-2">
+              <%= image_tag 'error_rogo.svg', size: '100x100' %>
+            </div>
+            <div class = "col-10">
+              <%= posts.post_text.truncate(30) %>
+            </div>
+          </div>
+        <% else %>
+          <div class = "row">
+            <%= link_to post_path(posts.id) do %>
+              <%= posts.title %>
+            <% end %>
+          </div>
+          <div class = "row">
+            <div class = "col-2">
+              <%= image_tag posts.get_post_image(100,100) %>
+            </div>
+            <div class = "col-10">
+              <%= posts.post_text.truncate(30) %>
+            </div>
+          </div>
+        <% end %>
+
+        <div class = "row justify-content-end">
+          <% if posts.user.status == false %>
+            投稿者<p class="text-danger">退会済み</p>
+          <% else %>
+            投稿者
+            <%= link_to edit_admin_user_path(posts.user_id) do %>
+              <%= posts.user.nickname %>
+            <% end %>
+            さん
+          <% end %>
+        </div>
+      <% end %>
+
+<%#　部分テンプレートにする　#%>
+
+    </div>
+
+    <div class="row justify-content-center"><%= paginate @posts %></div>
+
+  </div>
+</div>

@@ -5,7 +5,7 @@
 <%#　部分テンプレートにする　#%>
     <div class = "col-8 mx-auto">
       <% @comments.each do |comment| %>
-        <% if comment.is_deleted == true %>
+        <% if comment.is_deleted == true %> <%# 削除されたコメントをスキップ %>
           <% next %>
         <% end %>
         <div class = "row justify-content-end">
@@ -31,12 +31,19 @@
             <% end %>
           </div>
           <div class = "col-10">
-            <%= comment.comment_text.truncate(30) %>
+            <% if comment.is_hidden == true %> <%# 不適切コメントの表示 %>
+              <% comment.hidden %>
+              <span class = "text-danger"><%= comment.comment_text %></span>
+            <% else %>
+              <%= comment.comment_text.truncate(30) %>
+              <div class = "row justify-content-end">
+                <%= link_to "こちらのコメント詳細>>", comment_path(comment.id), class:"text-secondary" %>
+              </div>
+            <% end %>
+
           </div>
         </div>
-        <div class = "row justify-content-end">
-          <%= link_to "こちらのコメント詳細>>", comment_path(comment.id), class:"text-secondary" %>
-        </div>
+
       <% end %>
 
 <%#　部分テンプレートにする　#%>

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Public
   class CommentsController < ApplicationController
     def index

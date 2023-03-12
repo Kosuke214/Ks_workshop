@@ -1,2 +1,38 @@
-<h1>Public::Homes#top</h1>
-<p>Find me in app/views/public/homes/top.html.erb</p>
+<div class = "container">
+  <div class="main-image">
+    <div class="col-5">
+      <p>
+        初心者DIYer達の自己満足をこっそり満たし<br>
+        情報共有をするコミュニティサイト<br>
+      </p>
+    </div>
+    <div class = "row justify-content-end align-items-end">
+      <div class = "col-4">
+        <h4>最近の投稿</h4>
+        <% @posts.each do |posts| %>
+          <div class = "row">
+            <div class = "col-3">
+              <%= image_tag posts.get_post_image(50, 50) %>
+            </div>
+            <div class = "col-9">
+              <div class = "row">
+                <%= link_to post_path(posts.id) do %>
+                  <%= posts.title %>
+                <% end %>
+              </div>
+              <div class = "row"><%= posts.post_text.truncate(10) %></div>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @post_count >= 4 %>
+          <div class="row justify-content-end">
+            <%= link_to "もっと見る >>", posts_path %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+

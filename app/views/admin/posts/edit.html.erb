@@ -1,2 +1,44 @@
-<h1>Admin::Posts#edit</h1>
-<p>Find me in app/views/admin/posts/edit.html.erb</p>
+<div class="container">
+  <div class="col-sm-12 mx-auto">
+    <div class = "row">
+      <%= image_tag 'post.png', width: '5%', height: '5%' %><h3>投稿編集</h3>
+    </div>
+
+<%#　部分テンプレートにする　#%>
+    <div class = "col-8 mx-auto">
+      <div class = "row">
+        <div class = "col-5">
+          <%= image_tag @post.get_post_image(300, 300) %>
+        </div>
+        <div class = "col-7">
+          <div class = "row">
+            <h5>タイトル</h5>
+            <%= @post.title %>
+          </div>
+          <div class = "row">
+            <h5>本文</h5>
+            <%= @post.post_text %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<%#　部分テンプレートにする　#%>
+
+    <div class = "col-8 mx-auto">
+      <div class = "row justify-content-center">
+        <p><strong>不適切投稿の警告表示</strong></p>
+        <%= form_with model: @post, url: admin_post_path do |f| %>
+          <%= f.radio_button :is_hidden, true %>
+          <%= f.label :done, '表示', value: false, class:"text-danger" %>
+
+          <%= f.radio_button :is_hidden, false %>
+          <%= f.label :done, '非表示', value: false, class:"text-success" %>
+
+          <%= f.submit "更新" ,class:'btn btn-primary' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

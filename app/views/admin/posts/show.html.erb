@@ -1,2 +1,88 @@
-<h1>Admin::Posts#show</h1>
-<p>Find me in app/views/admin/posts/show.html.erb</p>
+<div class="container">
+  <div class="col-sm-12 mx-auto">
+    <div class = "row">
+      <div class = "col-5 mx-auto">
+        <div class = "row">
+          <%= image_tag 'post.png', width: '10%', height: '10%' %><h3>投稿詳細</h3>
+          <div class = "justify-content-end">
+            <%= link_to "編集する", edit_admin_post_path(@post), class:"btn btn-success" %>
+          </div>
+        </div>
+        <%# ↓部分テンプレートにできるかも %>
+        <div class = "container">
+          <div class = "row justify-content-end">
+            <%= @post.created_at.strftime('%Y/%m/%d') %>
+          </div>
+          <div class = "row">
+            <div class = "col-5">
+              <%#= posts.get_image %>
+            </div>
+            <div class = "col-7">
+              <h5>投稿者</h5>
+              <% if @post.user.status == false %>
+                <p class="text-danger">退会済みです</p>
+              <% else %>
+                <%= link_to user_path(@post.user_id) do %>
+                  <%= @post.user.nickname %>
+                <% end %>さん
+              <% end %>
+            </div>
+          </div>
+          <h5>タイトル</h5>
+          <%= @post.title %>
+          <h5>本文</h5>
+          <%= @post.post_text %>
+
+          <div class = "row">
+            <%= image_tag 'tag.png', width: '5%', height: '5%' %><span> 関連タグ </span>
+            <% if @post_tags.present? %>
+              <% @post_tags.each do |post_tag| %>
+                <%= post_tag.name %>
+              <% end %>
+            <% else %>
+              "登録されているタグはありません"
+            <% end %>
+          </div>
+        </div>
+        <%# ↑部分テンプレートにできるかも %>
+
+      </div>
+
+      <div class = "col-5 form-label mx-auto">
+        <h3><%= image_tag 'comment.png', width: '10%', height: '10%' %>コメント一覧</h3>
+
+        <% @comments.each do |comment| %>
+          <div class = "container">
+            <div class = "row justify-content-end">
+              <%= comment.created_at.strftime('%Y/%m/%d') %>
+            </div>
+            <div class = "row">
+              <div class = "col-3">
+                <div class = "row"><%#= posts.get_image %></div>
+                <div class = "row">
+                  <%= link_to edit_admin_user_path(comment.user_id) do %>
+                    <%= comment.user.nickname %>
+                  <% end %>さん
+                </div>
+              </div>
+              <div class = "col-9">
+                <% if comment.is_hidden == true %> <%# 不適切コメントの判定 %>
+                  <% comment.hidden %>
+                  <span class = "text-danger"><%= comment.comment_text.truncate(15) %></span>
+                <% else %>
+                  <%= comment.comment_text.truncate(15) %>
+                <% end %>
+
+                <div class = "row justify-content-end">
+                  <%= link_to "コメント編集へ>>", edit_admin_comment_path(comment.id), class:"text-secondary" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>
+

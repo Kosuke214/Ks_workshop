@@ -33,8 +33,11 @@ Rails.application.routes.draw do
       resources :homes, only: [:top]
       resources :users, only: %i[show edit update]
       resources :comments, only: %i[show index create edit update]
-      resources :posts, only: %i[new show index create edit update]
-      resources :favorites, only: %i[index create update]
+      resources :posts, only: %i[new show index create edit update] do
+        get :favorites, on: :member
+        resource :favorites, only: %i[create destroy] # 単数でURLにidを含めない
+      end
+
 
   end
 

@@ -1,97 +1,103 @@
-<%= form_with model: @user, url: edit_user_path, local: true do |f| %>
-
-  <div class="container">
-    <div class="col-sm-12 form-label mx-auto">
-      <h3>登録編集フォーム</h3>
-
-      <%#= render :partial => "registrations/form", :locals => {:f => f}, user: @user %>
-      <%# 以下部分テンプレートにする %>
-
-        <div class="user-form">
-          <div class="row">
-            <label class="col-3">会員氏名</label>
-            <div class="col-6">
-              <%= f.text_field :last_name, placeholder:"山田" %>
-              <%= f.text_field :first_name, placeholder:"太郎" %>
-            </div>
-          </div>
-        </div>
-
-        <div class="user-form">
-          <div class="row">
-            <label class="col-3">ニックネーム</label>
-            <div class="col-3">
-              <%= f.text_field :nickname, placeholder:"１５文字以内" %>
-            </div>
-          </div>
-        </div>
-
-        <div class="user-form">
-          <div class="row">
-            <label class="col-3">e-mail</label>
-            <div class="col-3">
-              <%= f.text_field :email, placeholder:"sample@gmail.com" %>
-            </div>
-          </div>
-        </div>
-
-        <div class="user-form">
-          <div class="row">
-            <label class="col-3">パスワード</label>
-            <div class="col-3">
-              <%= f.password_field :password, placeholder:"６文字以上２０文字以内" %>
-            </div>
-          </div>
-        </div>
-
-        <div class="user-form">
-          <div class="row">
-            <label class="col-3">パスワード（確認用）</label>
-            <div class="col-3">
-              <%= f.password_field :password_confirmation %>
-            </div>
-          </div>
-        </div>
-
-        <div class="user-form">
-          <div class="row">
-            <label class="col-3">プロフィール画像</label>
-            <div class="col-3">
-              <%= f.file_field :image,accept: "image/*", placeholder:"ファイルを選択" %>
-            </div>
-          </div>
-        </div>
-
-        <div class="user-form">
-          <div class="row">
-            <label class="col-3">DIY歴</label>
-            <div class="col-3">
-              <%= f.select :diy_history, User.diy_histories.keys.map {|k| [I18n.t("enums.user.diy_history.#{k}"), k]} %>
-            </div>
-          </div>
-        </div>
-
-        <div class="user-form">
-          <div class="row">
-            <label class="col-3">紹介文</label>
-            <div class="col-3">
-              <%= f.text_area :introduction, placeholder:"始めたばかりの初心者ですが、みなさんと一緒に上達していきたいと思います。", class: "form-control", style: "width:100%", rows: "5" %>
-            </div>
-          </div>
-        </div>
-
-        <%# ここまで部分テンプレートにする %>
-
-      <div class="actions">
-        <div class="row">
-          <label class="col-3"></label>
-          <div class="row">
-            <%= f.submit "更新" ,class:'btn btn-primary' %>
-            <%= link_to "退会する", users_unsubscribe_path, class:'btn btn-danger' %>
-          </div>
-        </div>
-      </div>
-
-    </div>
+<% if @user.email == 'guest@example.com' %>
+  <div class = "col-10 mx-auto">
+    <h3 class = "text-danger">ゲストユーザは情報の編集ができません。</h3>
   </div>
+<% else %>
+  <%= form_with model: @user, url: edit_user_path, local: true do |f| %>
+
+    <div class="container">
+      <div class="col-sm-12 form-label mx-auto">
+        <h3>登録編集フォーム</h3>
+
+        <%#= render :partial => "registrations/form", :locals => {:f => f}, user: @user %>
+        <%# 以下部分テンプレートにする %>
+
+          <div class="user-form">
+            <div class="row">
+              <label class="col-3">会員氏名</label>
+              <div class="col-6">
+                <%= f.text_field :last_name, placeholder:"山田" %>
+                <%= f.text_field :first_name, placeholder:"太郎" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-form">
+            <div class="row">
+              <label class="col-3">ニックネーム</label>
+              <div class="col-3">
+                <%= f.text_field :nickname, placeholder:"１５文字以内" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-form">
+            <div class="row">
+              <label class="col-3">e-mail</label>
+              <div class="col-3">
+                <%= f.text_field :email, placeholder:"sample@gmail.com" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-form">
+            <div class="row">
+              <label class="col-3">パスワード</label>
+              <div class="col-3">
+                <%= f.password_field :password, placeholder:"６文字以上２０文字以内" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-form">
+            <div class="row">
+              <label class="col-3">パスワード（確認用）</label>
+              <div class="col-3">
+                <%= f.password_field :password_confirmation %>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-form">
+            <div class="row">
+              <label class="col-3">プロフィール画像</label>
+              <div class="col-3">
+                <%= f.file_field :image,accept: "image/*", placeholder:"ファイルを選択" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-form">
+            <div class="row">
+              <label class="col-3">DIY歴</label>
+              <div class="col-3">
+                <%= f.select :diy_history, User.diy_histories.keys.map {|k| [I18n.t("enums.user.diy_history.#{k}"), k]} %>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-form">
+            <div class="row">
+              <label class="col-3">紹介文</label>
+              <div class="col-3">
+                <%= f.text_area :introduction, placeholder:"始めたばかりの初心者ですが、みなさんと一緒に上達していきたいと思います。", class: "form-control", style: "width:100%", rows: "5" %>
+              </div>
+            </div>
+          </div>
+
+          <%# ここまで部分テンプレートにする %>
+
+        <div class="actions">
+          <div class="row">
+            <label class="col-3"></label>
+            <div class="row">
+              <%= f.submit "更新" ,class:'btn btn-primary' %>
+              <%= link_to "退会する", users_unsubscribe_path, class:'btn btn-danger' %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  <% end %>
 <% end %>

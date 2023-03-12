@@ -2,19 +2,35 @@
   <div class="col-sm-12 mx-auto">
     <div class = "row">
       <div class = "col-5 mx-auto">
-        <h3><%= image_tag 'post.png', width: '10%', height: '10%' %>投稿詳細</h3>
+        <div class = "row">
+          <div class = "col-5">
+            <h3><%= image_tag 'post.png', width: '25%' %>投稿詳細</h3>
+          </div>
+          <div class = "col-4 ml-auto">
+            <% if @post.favorited_by?(current_user) %> <%# いいね済みかの判定 %>
+              <%= link_to post_favorites_path(@post), method: :delete do %>
+                <button type="button" class="btn btn-primary text-white">いいね<%= image_tag 'favorite.svg', width: '30%', height: '30%' %></button>
+              <% end %>
+              <% else %>
+              <%= link_to post_favorites_path(@post), method: :post do %>
+                <button type="button" class="btn btn-secondary">いいね<%= image_tag 'favorite.svg', width: '30%', height: '30%' %></button>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+
         <div class = "container">
           <div class = "row justify-content-end">
             <%= @post.created_at.strftime('%Y/%m/%d') %>
           </div>
           <div class = "row">
-            <div class = "col-5">
-              <%#= posts.get_image %>
-            </div>
             <div class = "col-7">
+              <%= image_tag @post.get_post_image(200,200) %>
+            </div>
+            <div class = "col-5">
               <h5>投稿者</h5>
               <% if @post.user.status == false %>
-                <p class="text-danger">退会済みです</p>
+                <p class="text-danger">退会済み</p>
               <% else %>
                 <%= link_to user_path(@post.user_id) do %>
                   <%= @post.user.nickname %>
@@ -25,7 +41,7 @@
           <h5>タイトル</h5>
           <%= @post.title %>
           <h5>本文</h5>
-          <%= @post.post_text %>
+          <%= Rinku.auto_link(@post.post_text, :all, 'target="_blank"').html_safe %>
 
           <div class = "row">
             <%= image_tag 'tag.png', width: '5%', height: '5%' %><span> 関連タグ </span>
@@ -49,24 +65,43 @@
       <div class = "col-5 form-label mx-auto">
         <h3><%= image_tag 'comment.png', width: '10%', height: '10%' %>コメント</h3>
 
-        <% @comments.each do |comment| %>
-          <div class = "container">
-            <div class = "row justify-content-end">
-              <%= comment.created_at.strftime('%Y/%m/%d') %>
-            </div>
-            <div class = "row">
-              <div class = "col-3">
-                <div class = "row"><%#= posts.get_image %></div>
-                <div class = "row"><%= comment.user.nickname %>さん</div>
+        <% if @comments.blank? %>
+          <p class = "text-secondary">こちらの投稿に関するコメントはまだございません。</p>
+        <% else %>
+          <% @comments.each do |comment| %>
+            <div class = "container">
+              <div class = "row justify-content-end">
+                <%= comment.created_at.strftime('%Y/%m/%d') %>
               </div>
-              <div class = "col-9">
-                <%= comment.comment_text.truncate(15) %>
-                <%= link_to "コメント詳細>>", comment_path(comment.id), class:"text-secondary" %>
+              <div class = "row">
+                <div class = "col-3">
+                  <div class = "row"><%= image_tag comment.user.get_profile_image %></div>
+                  <div class = "row">
+                    <% if comment.user.status == false %>
+                      <p class="text-danger">退会済み</p>
+                    <% else %>
+                      <%= comment.user.nickname %>さん
+                    <% end %>
+                  </div>
+                </div>
+                <div class = "col-9">
+                  <% if comment.is_hidden == true %>
+                    <% comment.hidden %>
+                    <span class = "text-danger"><%= comment.comment_text.truncate(15) %></span>
+                  <% else %>
+                    <%= comment.comment_text.truncate(15) %>
+                    <div class = "row justify-content-end">
+                      <%= link_to "コメント詳細>>", comment_path(comment.id), class:"text-secondary" %>
+                    </div>
+                  <% end %>
+
+                </div>
               </div>
             </div>
-          </div>
+          <% end %>
 
         <% end %>
+
         <% if @count >= 4 %>
           <div class="row justify-content-end">
             <%= link_to "もっと見る >>", comments_path(:post_id => @post.id) %>

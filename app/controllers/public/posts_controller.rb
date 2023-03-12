@@ -1,13 +1,18 @@
-# frozen_string_literal: true
-
 module Public
   class PostsController < ApplicationController
-    before_action :configure_active_user, only: [:show]
+    # before_action :configure_active_user, only: [:show]
     def index
       # post_tags = PostTag.all
-      @posts = Post.where(is_deleted: 'false').ransack(params[:q]).result.includes(:post_tags).order(created_at: :desc).page(params[:page]).per(5)
+      @posts = Post.ransack(params[:q]).result.includes(:post_tags).order(created_at: :desc).page(params[:page]).per(5)
       # @posts = Post.ransack(title_or_post_text_cont: params[:q]).result(distinct: true)
       # @post_tags = PostTag.ransack(name_cont: params[:q]).result(distinct: true)
+    end
+
+    def favorites
+      @user = User.find(params[:id])
+      favorite = Favorite.order(created_at: :desc).where(user_id: @user.id).pluck(:post_id)
+      @posts = Post.find(favorite)
+      @favorite_posts = Kaminari.paginate_array(@posts).page(params[:page]).per(5) # 配列に対するページネーション
     end
 
     def show
@@ -65,15 +70,16 @@ module Public
     private
 
     def post_params
-      params.require(:post).permit(:user_id, :title, :post_text, :post_tags_name) # , :tag_list
+      params.require(:post).permit(:user_id, :title, :post_text, :post_tags_name, :post_image)
     end
 
-    def configure_active_user
-      @post = Post.find(params[:id])
-      if @post.user.status == false
-        @post.user.nickname = '退会済みユーザ'
-      end
-    end
+    # 退会の判定メソッド
+    # def configure_active_user
+    #  @post = Post.find(params[:id])
+    #  if @post.user_status == false
+    #    @post.user_nickname = '退会済みユーザ'
+    #  end
+    # end
 
     # def set_search
     #  @search = Post.ransack(params[:q])  #キーワード、タグ検索の引数
