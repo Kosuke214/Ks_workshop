@@ -3,7 +3,11 @@ module Public
     def create
       @post = Post.find(params[:post_id])
       favorite = current_user.favorite.new(post_id: @post.id)
-      favorite.save
+      if current_user.email == 'guest@example.com'
+        flash[:alret] = 'ゲストユーザはいいねできません。'
+      else
+        favorite.save
+      end
       redirect_to post_path(@post)
     end
 

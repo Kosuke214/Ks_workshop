@@ -18,6 +18,7 @@ module Public
       @comment.user_id = current_user.id
       # @comment.post_id = @post.id
       if @comment.save
+        flash[:notice] = 'コメントしました。'
         redirect_to post_path(@comment.post.id)
       end
     end
@@ -32,6 +33,7 @@ module Public
       @comment = Comment.find(params[:id])
       if @comment.user_id == current_user.id
         @comment.update(is_deleted: true)
+        flash[:alret] = 'コメントを削除しました。'
         redirect_to post_path(@comment.post_id)
       end
     end

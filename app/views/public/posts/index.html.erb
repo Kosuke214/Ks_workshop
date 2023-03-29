@@ -1,58 +1,9 @@
-<div class="container">
+<div class="container mt-3">
+  <p class="text-success"><%= flash[:notice] %></p>
   <div class="col-sm-12 mx-auto">
-    <h3><%= image_tag 'post.png', width: '4%' %>投稿(検索)一覧</h3>
+    <h3 class = "title"><span><%= image_tag 'post.png' %>投稿(検索)一覧</span></h3>
 
-<%#　部分テンプレートにする　#%>
-    <div class = "col-8 mx-auto">
-      <% @posts.each do |posts| %>
-
-        <% if posts.is_hidden == true %>
-          <% posts.hidden %>
-          <div class = "row">
-            <span class = "text-danger"><%= posts.title %></span>
-          </div>
-          <div class = "row">
-            <div class = "col-2">
-              <%= image_tag 'error_rogo.svg', size: '100x100' %>
-            </div>
-            <div class = "col-10">
-              <%= posts.post_text.truncate(30) %>
-            </div>
-          </div>
-        <% else %>
-          <div class = "row">
-            <%= link_to post_path(posts.id) do %>
-              <%= posts.title %>
-            <% end %>
-          </div>
-          <div class = "row">
-            <div class = "col-2">
-              <%= image_tag posts.get_post_image(100, 100) %>
-            </div>
-            <div class = "col-10">
-              <%= posts.post_text.truncate(30) %>
-            </div>
-          </div>
-        <% end %>
-
-        <div class = "row justify-content-end">
-          <% if posts.user.status == false %>
-            投稿者<p class="text-danger">退会済み</p>
-          <% else %>
-            投稿者
-            <%= link_to user_path(posts.user_id) do %>
-              <%= posts.user.nickname %>
-            <% end %>
-            さん
-          <% end %>
-        </div>
-      <% end %>
-
-<%#　部分テンプレートにする　#%>
-
-    </div>
-
-    <div class="row justify-content-center"><%= paginate @posts %></div>
+     <%= render 'list', posts: @posts %>
 
   </div>
 </div>

@@ -60,7 +60,7 @@ module Public
     # 退会時、ゲストユーザか判断
     def ensure_user
       if resource.email == 'guest@example.com'
-        redirect_to root_path, alert: 'ゲストユーザは編集・退会できません。' # rubocop:todo Rails/I18nLocaleTexts
+        redirect_to root_path, alert: 'ゲストユーザは編集・退会できません。'
       end
     end
 

@@ -3,7 +3,7 @@ module Public
     # before_action :configure_active_user, only: [:show]
     def index
       # post_tags = PostTag.all
-      @posts = Post.ransack(params[:q]).result.includes(:post_tags).order(created_at: :desc).page(params[:page]).per(5)
+      @posts = Post.where(is_deleted: 'false').ransack(params[:q]).result.includes(:post_tags).order(created_at: :desc).page(params[:page]).per(5)
       # @posts = Post.ransack(title_or_post_text_cont: params[:q]).result(distinct: true)
       # @post_tags = PostTag.ransack(name_cont: params[:q]).result(distinct: true)
     end
@@ -24,11 +24,18 @@ module Public
     end
 
     def new
+      @user = current_user
       @post = Post.new
+      @post_tags = @post.post_tags.pluck(:name).join(' ')
+      if @user.email == 'guest@example.com'
+        flash[:alret] = 'ゲストユーザは投稿できません。'
+        redirect_to user_path(current_user)
+      end
     end
 
     def edit
       @post = Post.find(params[:id])
+      @post_tags = @post.post_tags.pluck(:name).join(' ')
     end
 
     def create
@@ -37,6 +44,7 @@ module Public
       tag_list = params[:post][:name].split(/[[:blank:]]/)
       if @post.save
         @post.save_tag(tag_list)
+        flash[:notice] = '投稿しました。'
         redirect_to posts_path
       else
         redirect_back(fallback_location: posts_path)
@@ -51,8 +59,10 @@ module Public
       tag_list = params[:post][:name].split(/[[:blank:]]/)
       if @post.update(post_params)
         @post.save_tag(tag_list)
+        flash[:notice] = '投稿を更新しました。'
         redirect_to posts_path
       else
+        flash[:alret] = '更新に失敗しました。'
         render :edit
       end
 
@@ -63,6 +73,7 @@ module Public
       @post = Post.find(params[:id])
       if @post.user_id == current_user.id
         @post.update(is_deleted: true)
+        flash[:alret] = '投稿が削除されました。'
         redirect_to user_posts_path(current_user.id)
       end
     end

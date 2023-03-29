@@ -4,13 +4,25 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_search
 
-  # def set_search
-  #  @search = Post.ransack(params[:q])
-  #  @search_posts = @search.result.order(created_at: :desc).page(params[:page]).per(5)
-  #  if params[:q].present? #paramsのnil対策
-  #    @search_posts_result = Post.by_any_texts(params[:q][:title_or_post_text_cont]) #投稿本文、タイトル、タグを検索対象
-  #  end
-  # end
+  def after_sign_in_path_for(resource)
+    case resource
+    when Admin
+      admin_posts_path
+    when User
+      user_path(current_user)
+    end
+
+    # root_url  "admin_path"
+  end
+
+  def after_sign_out_path_for(resource)
+    case resource
+    when :admin
+      new_admin_session_path
+    when :user
+      root_path
+    end
+  end
 
   protected
 
@@ -21,6 +33,6 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[last_name first_name nickname diy_history introduction])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[last_name first_name nickname diy_history introduction profile_image])
   end
 end

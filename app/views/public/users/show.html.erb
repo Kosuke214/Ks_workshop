@@ -1,107 +1,125 @@
 <div class="container">
-  <div class="col-sm-12 mx-auto">
-    <% if @user == current_user %> <%# 自身のページか判定 %>
-      <h3><%= @user.nickname %>さんのマイページ</h3>
-    <% else %>
-      <h3><%= @user.nickname %>さんのページ</h3>
-    <% end %>
+  <p class="text-success"><%= flash[:notice] %></p>
+  <p class="text-danger"><%= flash[:alret] %></p>
+  <% unless user_signed_in? %> <%# ログイン中のユーザのみユーザページを閲覧可能 %>
+    <h3 class = "text-danger">こちらのページはログイン中のユーザのみ閲覧可能です。</h3>
+  <% else %>
+    <div class="col-sm-12 mx-auto mt-3">
 
-    <div class = "row">
-      <div class = "col-3">
-        <%= image_tag @user.get_profile_image(100,100) %>
-        <div class = "row">
-          <label class = "form-label">ニックネーム</label>
-            <%= @user.nickname %>
-        </div>
+      <% if @user == current_user %> <%# 自身のページか判定 %>
+        <h3 class = "title"><span><%= image_tag 'mypage.svg' %><%= @user.nickname %>さんのマイページ</span></h3>
+      <% else %>
+        <h3 class = "title"><span><%= image_tag 'mypage.svg' %><%= @user.nickname %>さんのページ</span></h3>
+      <% end %>
 
-        <div class = "row">
-          <label>DIY歴</label>
-          <%= @user.diy_history_i18n %>
-        </div>
-
-        <div class = "row">
-          <label>紹介文</label>
-          <%= @user.introduction %>
-        </div>
-
-        <%= link_to " 編集 ", edit_user_path, class: 'btn btn-success float-right' %>
-
-      </div>
-
-      <div class = "col-4">
-        <h5><%= image_tag 'post.png', width: '10%' %>投稿一覧</h5>
-
-        <% @posts.each do |posts| %>
+      <div class = "row">
+        <div class = "col-3 profile-area">
+          <div class = "row justify-content-center">
+            <%= image_tag @user.get_profile_image(100,100) %>
+          </div>
+          <div class = "row">
+            <div class = "col-12">
+              <div class = "row"><h5><span class = "stripe">ニックネーム</span></h5></div>
+              <%= @user.nickname %>
+            </div>
+          </div>
 
           <div class = "row">
-            <% if posts.is_hidden == true %>　<%# 不適切投稿の表示切り替え %>
-              <% posts.hidden %>
-              <div class = "row">
-                <div class = "col-3">
-                  <%= image_tag 'error_rogo.svg', size: '50x50' %>
-                </div>
-                <div class = "col-9">
-                  <div class = "row"><span class = "text-danger"><%= posts.title %></span></div>
-                  <div class = "row"><span class = "text-secondary"><%= posts.post_text.truncate(10) %></span></div>
-                </div>
-              </div>
-            <% else %>
-              <div class = "col-3">
-                <%= image_tag posts.get_post_image(50, 50) %>
-              </div>
-              <div class = "col-9">
-                <div class = "row">
-                  <%= link_to post_path(posts.id) do %>
-                    <%= posts.title %>
-                  <% end %>
-                </div>
-                <div class = "row"><%= posts.post_text.truncate(10) %></div>
-              </div>
+            <div class = "col-12">
+              <div class = "row"><h5><span class = "stripe">DIY歴</span></h5></div>
+              <%= @user.diy_history_i18n %>
+            </div>
+          </div>
+
+          <div class = "row">
+            <div class = "col-12">
+              <div class = "row"><h5><span class = "stripe">紹介文</span></h5></div>
+              <%= raw safe_join(@user.introduction.split("\n"),tag(:br)) %>
+            </div>
+          </div>
+          <div class = "row content-end">
+            <% if @user == current_user %>
+              <%= link_to " 編集 ", edit_user_path, class: 'btn btn-success' %>
             <% end %>
           </div>
 
-
-        <% end %>
-
-        <% if @post_count >= 4 %>
-          <div class="row justify-content-end">
-            <%= link_to "もっと見る >>", user_posts_path(@user) %>
-          </div>
-        <% end %>
-        <div class = "row justify-content-center">
-          <%= link_to "新規投稿", new_post_path, class:'btn btn-primary' %>
         </div>
 
+        <div class = "col-4">
+          <h4 class = "title"><%= image_tag 'post.png' %>投稿一覧</h4>
 
-      </div>
+          <% @posts.each do |posts| %>
 
-      <div class = "col-4">
-        <h5><%= image_tag 'favorite.svg', width: '10%' %>いいね(ブックマーク)一覧</h5>
-        <% @favorites.each do |favorites| %>
-          <div class = "row">
-            <div class = "col-3">
-              <%= image_tag favorites.post.get_post_image(50,50) %>
+            <div class = "row list shadow">
+              <% if posts.is_hidden == true %>　<%# 不適切投稿の表示切り替え %>
+                <% posts.hidden %>
+                <div class = "col-4">
+                  <%= image_tag 'error_rogo.svg', size: '100x100' %>
+                </div>
+                <div class = "col-6">
+                  <div class = "row"><span class = "text-danger"><%= posts.title %></span></div>
+                  <div class = "row"><span class = "text-secondary"><%= posts.post_text.truncate(10) %></span></div>
+                </div>
+              <% else %>
+                <div class = "col-4">
+                  <%= image_tag posts.get_post_image(100, 100) %>
+                </div>
+                <div class = "col-6">
+                  <div class = "row">
+                    <%= link_to post_path(posts.id) do %>
+                      <%= posts.title %>
+                    <% end %>
+                  </div>
+                  <div class = "row"><%= posts.post_text.truncate(10) %></div>
+                </div>
+              <% end %>
             </div>
-            <div class = "col-9">
-              <div class = "row">
-                <%= link_to post_path(favorites.post.id) do %>
-                  <%= favorites.post.title %>
-                <% end %>
+
+
+          <% end %>
+
+          <% if @post_count >= 4 %>
+            <div class="row justify-content-end top-margin">
+              <%= link_to "もっと見る >>", user_posts_path(@user) %>
+            </div>
+          <% end %>
+          <% if @user == current_user %>
+            <div class = "row justify-content-center">
+              <%= link_to "新規投稿", new_post_path, class:'btn btn-primary w-50' %>
+            </div>
+          <% end %>
+
+
+        </div>
+
+        <div class = "col-4">
+          <h4 class = "title"><%= image_tag 'favorite.svg' %>いいね(ブックマーク)一覧</h4>
+          <% @favorites.each do |favorites| %>
+            <div class = "row list shadow">
+              <div class = "col-4">
+                <%= image_tag favorites.post.get_post_image(100,100) %>
               </div>
-              <div class = "row"><%= favorites.post.post_text.truncate(10) %></div>
+              <div class = "col-6">
+                <div class = "row">
+                  <%= link_to post_path(favorites.post.id) do %>
+                    <%= favorites.post.title %>
+                  <% end %>
+                </div>
+                <div class = "row"><%= favorites.post.post_text.truncate(10) %></div>
+              </div>
             </div>
-          </div>
-        <% end %>
+          <% end %>
 
-        <% if @favorite_count >= 4 %>
-          <div class="row justify-content-end">
-            <%= link_to "もっと見る >>", favorites_post_path(@user) %>
-          </div>
-        <% end %>
+          <% if @favorite_count >= 4 %>
+            <div class="row justify-content-end top-margin">
+              <%= link_to "もっと見る >>", favorites_post_path(@user) %>
+            </div>
+          <% end %>
 
+        </div>
       </div>
+
+
     </div>
-
-
-  </div>
+  <% end %>
 </div>

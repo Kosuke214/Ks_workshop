@@ -1,22 +1,25 @@
 <% if @user.email == 'guest@example.com' %>
-  <div class = "col-10 mx-auto">
-    <h3 class = "text-danger">ゲストユーザは情報の編集ができません。</h3>
+  <div class = "col-10 mx-auto mt-3">
+    <h3 class = "text-danger">ゲストユーザは情報を編集できません。</h3>
   </div>
 <% else %>
-  <%= form_with model: @user, url: edit_user_path, local: true do |f| %>
+  <%= form_with model: @user, url: user_path, local: true do |f| %>
 
-    <div class="container">
+    <div class="container mt-3">
+      <p class="text-danger"><%= flash[:alret] %></p>
       <div class="col-sm-12 form-label mx-auto">
-        <h3>登録編集フォーム</h3>
+        <h3 class = "title"><span><%= image_tag 'mypage.svg' %>登録編集フォーム</span></h3>
 
-        <%#= render :partial => "registrations/form", :locals => {:f => f}, user: @user %>
+        <%#= render :partial => "form", :locals => {:f => f, user: @user} %>
         <%# 以下部分テンプレートにする %>
 
           <div class="user-form">
             <div class="row">
               <label class="col-3">会員氏名</label>
-              <div class="col-6">
+              <div class="col-2">
                 <%= f.text_field :last_name, placeholder:"山田" %>
+              </div>
+              <div class="col-2">
                 <%= f.text_field :first_name, placeholder:"太郎" %>
               </div>
             </div>
@@ -25,8 +28,8 @@
           <div class="user-form">
             <div class="row">
               <label class="col-3">ニックネーム</label>
-              <div class="col-3">
-                <%= f.text_field :nickname, placeholder:"１５文字以内" %>
+              <div class="col-4">
+                <%= f.text_field :nickname, placeholder:"１５文字以内", class:'w-100' %>
               </div>
             </div>
           </div>
@@ -34,26 +37,8 @@
           <div class="user-form">
             <div class="row">
               <label class="col-3">e-mail</label>
-              <div class="col-3">
-                <%= f.text_field :email, placeholder:"sample@gmail.com" %>
-              </div>
-            </div>
-          </div>
-
-          <div class="user-form">
-            <div class="row">
-              <label class="col-3">パスワード</label>
-              <div class="col-3">
-                <%= f.password_field :password, placeholder:"６文字以上２０文字以内" %>
-              </div>
-            </div>
-          </div>
-
-          <div class="user-form">
-            <div class="row">
-              <label class="col-3">パスワード（確認用）</label>
-              <div class="col-3">
-                <%= f.password_field :password_confirmation %>
+              <div class="col-4">
+                <%= f.text_field :email, placeholder:"sample@gmail.com", class: "w-100" %>
               </div>
             </div>
           </div>
@@ -61,8 +46,8 @@
           <div class="user-form">
             <div class="row">
               <label class="col-3">プロフィール画像</label>
-              <div class="col-3">
-                <%= f.file_field :image,accept: "image/*", placeholder:"ファイルを選択" %>
+              <div class="col-4">
+                <%= f.file_field :profile_image, accept: "image/*", placeholder:"ファイルを選択" %>
               </div>
             </div>
           </div>
@@ -70,8 +55,8 @@
           <div class="user-form">
             <div class="row">
               <label class="col-3">DIY歴</label>
-              <div class="col-3">
-                <%= f.select :diy_history, User.diy_histories.keys.map {|k| [I18n.t("enums.user.diy_history.#{k}"), k]} %>
+              <div class="col-2">
+                <%= f.select :diy_history, User.diy_histories.keys.map {|k| [I18n.t("enums.user.diy_history.#{k}"), k]}, {}, {class: 'form-control'} %>
               </div>
             </div>
           </div>
@@ -79,8 +64,8 @@
           <div class="user-form">
             <div class="row">
               <label class="col-3">紹介文</label>
-              <div class="col-3">
-                <%= f.text_area :introduction, placeholder:"始めたばかりの初心者ですが、みなさんと一緒に上達していきたいと思います。", class: "form-control", style: "width:100%", rows: "5" %>
+              <div class="col-4">
+                <%= f.text_area :introduction, placeholder:"始めたばかりの初心者ですが、みなさんと一緒に上達していきたいと思います。", style: "width:100%", rows: "5" %>
               </div>
             </div>
           </div>
@@ -92,7 +77,7 @@
             <label class="col-3"></label>
             <div class="row">
               <%= f.submit "更新" ,class:'btn btn-primary' %>
-              <%= link_to "退会する", users_unsubscribe_path, class:'btn btn-danger' %>
+              <%= link_to "退会する", users_unsubscribe_path, class:'btn btn-danger ml-3' %>
             </div>
           </div>
         </div>

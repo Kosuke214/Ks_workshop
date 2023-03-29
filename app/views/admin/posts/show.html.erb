@@ -3,7 +3,7 @@
     <div class = "row">
       <div class = "col-5 mx-auto">
         <div class = "row">
-          <%= image_tag 'post.png', width: '10%', height: '10%' %><h3>投稿詳細</h3>
+          <%= image_tag 'post.png', width: '10%' %><h3>投稿詳細</h3>
           <div class = "justify-content-end">
             <%= link_to "編集する", edit_admin_post_path(@post), class:"btn btn-success" %>
           </div>
@@ -34,7 +34,7 @@
           <%= @post.post_text %>
 
           <div class = "row">
-            <%= image_tag 'tag.png', width: '5%', height: '5%' %><span> 関連タグ </span>
+            <%= image_tag 'tag.png' %><span> 関連タグ </span>
             <% if @post_tags.present? %>
               <% @post_tags.each do |post_tag| %>
                 <%= post_tag.name %>
@@ -49,7 +49,7 @@
       </div>
 
       <div class = "col-5 form-label mx-auto">
-        <h3><%= image_tag 'comment.png', width: '10%', height: '10%' %>コメント一覧</h3>
+        <h3><%= image_tag 'comment.png' %>コメント一覧</h3>
 
         <% @comments.each do |comment| %>
           <div class = "container">

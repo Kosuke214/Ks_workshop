@@ -1,0 +1,79 @@
+<div class = "col-8 mx-auto">
+  <% posts.each do |posts| %>
+    <div class = "row list shadow">
+      <div class = "col-12">
+        <% if posts.is_hidden == true %>
+          <% posts.hidden %>
+          <div class = "row">
+            <div class = "col-3">
+              <%= image_tag 'error_rogo.svg', size: '100x100' %>
+            </div>
+            <div class = "col-7">
+              <div class = "row">
+                <span class = "text-danger"><%= posts.title %></span>
+              </div>
+              <div class = "row">
+                <%= posts.post_text.truncate(30) %>
+              </div>
+            </div>
+          </div>
+          <div class = "row content-end">
+            <% if posts.user.status == false %>
+              投稿者<p class="text-danger">退会済み</p>
+            <% else %>
+              投稿者
+              <%= link_to user_path(posts.user_id) do %>
+                <%= posts.user.nickname %>
+              <% end %>
+              さん
+            <% end %>
+          </div>
+
+        <% else %>
+          <div class = "row justify-content-end"><%= posts.created_at.strftime('%Y/%m/%d') %></div>
+          <div class = "row">
+            <div class = "col-3">
+              <%= image_tag posts.get_post_image(100, 100) %>
+            </div>
+            <div class = "col-7">
+              <div class = "row">
+                <% if user_signed_in? %> <%# ログイン中のユーザのみ投稿詳細を閲覧可能 %>
+                  <%= link_to post_path(posts.id) do %>
+                    <%= posts.title %>
+                  <% end %>
+                <% else %>
+                  <%= link_to "/users/sign_up" do %>
+                    <%= posts.title %>
+                  <% end %>
+                <% end %>
+
+              </div>
+              <div class = "row">
+                <%= posts.post_text.truncate(40) %>
+              </div>
+            </div>
+          </div>
+          <div class = "row content-end">
+            <% if posts.user.status == false %>
+              投稿者<p class="text-danger">退会済み</p>
+            <% else %>
+              投稿者
+              <% if user_signed_in? %> <%# ログイン中のユーザのみ投稿者ページを閲覧可能 %>
+                <%= link_to user_path(posts.user_id) do %>
+                  <%= posts.user.nickname %>
+                <% end %>
+                さん
+              <% else %>
+                <%= link_to "/users/sign_up" do %>
+                  <%= posts.user.nickname %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="row justify-content-center"><%= paginate posts,theme: 'bootstrap-5' %></div>

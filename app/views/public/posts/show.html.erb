@@ -1,124 +1,167 @@
-<div class="container">
-  <div class="col-sm-12 mx-auto">
-    <div class = "row">
-      <div class = "col-5 mx-auto">
-        <div class = "row">
-          <div class = "col-5">
-            <h3><%= image_tag 'post.png', width: '25%' %>投稿詳細</h3>
-          </div>
-          <div class = "col-4 ml-auto">
-            <% if @post.favorited_by?(current_user) %> <%# いいね済みかの判定 %>
-              <%= link_to post_favorites_path(@post), method: :delete do %>
-                <button type="button" class="btn btn-primary text-white">いいね<%= image_tag 'favorite.svg', width: '30%', height: '30%' %></button>
-              <% end %>
-              <% else %>
-              <%= link_to post_favorites_path(@post), method: :post do %>
-                <button type="button" class="btn btn-secondary">いいね<%= image_tag 'favorite.svg', width: '30%', height: '30%' %></button>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-
-        <div class = "container">
-          <div class = "row justify-content-end">
-            <%= @post.created_at.strftime('%Y/%m/%d') %>
-          </div>
+<div class="container mt-3">
+  <p class="text-success"><%= flash[:notice] %></p>
+  <p class="text-danger"><%= flash[:alret] %></p>
+  <% unless user_signed_in? %> <%# ログイン中のユーザのみ投稿詳細を閲覧可能 %>
+    <h3 class = "text-danger">こちらのページはログイン中のユーザのみ閲覧可能です。</h3>
+  <% else %>
+    <div class="col-sm-12 mx-auto">
+      <div class = "row">
+        <div class = "col-5 mx-auto">
           <div class = "row">
             <div class = "col-7">
-              <%= image_tag @post.get_post_image(200,200) %>
+              <h3 class = "title"><span><%= image_tag 'post.png' %>投稿詳細</span></h3>
             </div>
-            <div class = "col-5">
-              <h5>投稿者</h5>
-              <% if @post.user.status == false %>
-                <p class="text-danger">退会済み</p>
-              <% else %>
-                <%= link_to user_path(@post.user_id) do %>
-                  <%= @post.user.nickname %>
-                <% end %>さん
+            <div class = "col-4 ml-auto">
+              <% if @post.favorited_by?(current_user) %> <%# いいね済みかの判定 %>
+                <%= link_to post_favorites_path(@post), method: :delete do %>
+                  <button type="button" class="btn btn-primary text-white">いいね　<%= image_tag 'favorite.svg', width: '30%' %></button>
+                <% end %>
+                <% else %>
+                <%= link_to post_favorites_path(@post), method: :post do %>
+                  <button type="button" class="btn btn-secondary">いいね　<%= image_tag 'favorite.svg', width: '30%' %></button>
+                <% end %>
               <% end %>
             </div>
           </div>
-          <h5>タイトル</h5>
-          <%= @post.title %>
-          <h5>本文</h5>
-          <%= Rinku.auto_link(@post.post_text, :all, 'target="_blank"').html_safe %>
 
-          <div class = "row">
-            <%= image_tag 'tag.png', width: '5%', height: '5%' %><span> 関連タグ </span>
-            <% if @post_tags.present? %>
-              <% @post_tags.each do |post_tag| %>
-                <%= post_tag.name %>
+          <div class = "container post-area shadow color-reflection">
+            <div class = "row justify-content-end">
+              <%= @post.created_at.strftime('%Y/%m/%d') %>
+            </div>
+            <div class = "row">
+              <div class = "col-7">
+                <%= image_tag @post.get_post_image(200,200) %>
+              </div>
+              <div class = "col-4">
+                <h5>投稿者</h5>
+                <% if @post.user.status == false %>
+                  <p class="text-danger">退会済み</p>
+                <% else %>
+                  <%= link_to user_path(@post.user_id) do %>
+                    <%= @post.user.nickname %>
+                  <% end %>さん
+                <% end %>
+              </div>
+            </div>
+
+            <div class = "row">
+              <div class = "col-12">
+                <div class = "row"><h5><span class = "stripe">タイトル</span></h5></div>
+                <%= @post.title %>
+              </div>
+            </div>
+
+            <div class = "row">
+              <div class = "col-12">
+                <div class = "row"><h5><span class = "stripe">本文</span></h5></div>
+                <%= raw Rinku.auto_link(safe_join(@post.post_text.split("\n"),tag(:br)), :all, 'target="_blank" class="Rinku"').html_safe %>
+
+                <%# プレビュー機能 %>
+                <script>
+                  $('a.Rinku').miniPreview({
+                    width: 256,
+                    height: 144,
+                    scale: .25,
+                    prefetch: 'pageload'
+                  });
+                </script>
+
+              </div>
+            </div>
+
+
+            <div class = "row">
+              <%= image_tag 'tag.png' %><span class = "width-padding mr-2">関連タグ</span>
+              <% if @post_tags.present? %>
+                <% @post_tags.each do |post_tag| %>
+                  <span class = "width-padding color-new_grass mr-2"><%= post_tag.name %></span>
+                <% end %>
+              <% else %>
+                <span class = "text-secondary">"登録されているタグはありません"</span>
               <% end %>
+            </div>
+            <div class = "row justify-content-end">
+              <% if @post.user_id == current_user.id %>
+                <%= link_to "編集", edit_post_path, class: 'btn btn-success' %>
+              <% end %>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class = "col-5 mx-auto">
+          <div class = "row">
+            <div class = "col-12">
+              <h3 class = "title"><span><%= image_tag 'comment.png' %>コメント</span></h3>
+            </div>
+          </div>
+
+
+          <div class = "mb-5">
+            <% if @comments.blank? %>
+              <p class = "text-secondary ml-0">こちらの投稿に関するコメントはまだございません。</p>
             <% else %>
-              "登録されているタグはありません"
+              <% @comments.each do |comment| %>
+                <div class = "row list shadow">
+                  <div class = "col-12">
+                    <div class = "row  justify-content-end">
+                      <%= comment.created_at.strftime('%Y/%m/%d') %>
+                    </div>
+                    <div class = "row">
+                      <div class = "col-3 mx-auto">
+                        <div class = "row  justify-content-center"><%= image_tag comment.user.get_profile_image(60,60) %></div>
+                        <div class = "row  justify-content-center">
+                          <% if comment.user.status == false %>
+                            <p class="text-danger">退会済み</p>
+                          <% else %>
+                            <%= comment.user.nickname %>さん
+                          <% end %>
+                        </div>
+                      </div>
+                      <div class = "col-8">
+                        <% if comment.is_hidden == true %>
+                          <% comment.hidden %>
+                          <span class = "text-danger"><%= comment.comment_text.truncate(15) %></span>
+                        <% else %>
+                          <%= comment.comment_text.truncate(15) %>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class = "row content-end">
+                      <%= link_to "コメント詳細>>", comment_path(comment.id), class:"text-secondary" %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
             <% end %>
           </div>
 
-        </div>
-        <div class = "row justify-content-end">
-          <% if @post.user_id == current_user.id %>
-            <%= link_to "編集", edit_post_path, class: 'btn btn-success mr-0' %>
-          <% end %>
-        </div>
-      </div>
-
-      <div class = "col-5 form-label mx-auto">
-        <h3><%= image_tag 'comment.png', width: '10%', height: '10%' %>コメント</h3>
-
-        <% if @comments.blank? %>
-          <p class = "text-secondary">こちらの投稿に関するコメントはまだございません。</p>
-        <% else %>
-          <% @comments.each do |comment| %>
-            <div class = "container">
-              <div class = "row justify-content-end">
-                <%= comment.created_at.strftime('%Y/%m/%d') %>
-              </div>
-              <div class = "row">
-                <div class = "col-3">
-                  <div class = "row"><%= image_tag comment.user.get_profile_image %></div>
-                  <div class = "row">
-                    <% if comment.user.status == false %>
-                      <p class="text-danger">退会済み</p>
-                    <% else %>
-                      <%= comment.user.nickname %>さん
-                    <% end %>
-                  </div>
-                </div>
-                <div class = "col-9">
-                  <% if comment.is_hidden == true %>
-                    <% comment.hidden %>
-                    <span class = "text-danger"><%= comment.comment_text.truncate(15) %></span>
-                  <% else %>
-                    <%= comment.comment_text.truncate(15) %>
-                    <div class = "row justify-content-end">
-                      <%= link_to "コメント詳細>>", comment_path(comment.id), class:"text-secondary" %>
-                    </div>
-                  <% end %>
-
-                </div>
-              </div>
+          <% if @count >= 4 %>
+            <div class="row justify-content-end">
+              <%= link_to "もっと見る >>", comments_path(:post_id => @post.id) %>
             </div>
           <% end %>
 
-        <% end %>
+          <% unless current_user.email == 'guest@example.com' %> <%# ゲストのみコメント入力欄非表示に %>
 
-        <% if @count >= 4 %>
-          <div class="row justify-content-end">
-            <%= link_to "もっと見る >>", comments_path(:post_id => @post.id) %>
-          </div>
-        <% end %>
+            <%= form_with model: @comment, url: comments_path do |f| %>
+              <%= f.text_area :comment_text, placeholder:"この投稿に対してコメントする", class: "form-control", style: "width:100%", rows: "3" %>
+              <div class = "col-12">
+                <div class = "row justify-content-end mt-2">
+                  <%= f.hidden_field :post_id, :value => @post.id %>
+                  <%= f.submit "コメントする" ,class:'btn btn-primary' %>
+                </div>
 
-        <%= form_with model: @comment, url: comments_path do |f| %>
-          <%= f.text_area :comment_text, placeholder:"この投稿に対してコメントする", class: "form-control", style: "width:100%", rows: "3" %>
-          <div class = "row justify-content-end">
-            <%= f.hidden_field :post_id, :value => @post.id %>
-            <%= f.submit "コメントする" ,class:'btn btn-primary' %>
-          </div>
-        <% end %>
+              </div>
+            <% end %>
+          <% end %>
 
+        </div>
       </div>
-    </div>
 
-  </div>
+    </div>
+  <% end %>
 </div>
+
 

@@ -6,8 +6,13 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <!-- リセットcss sanitize.css  -->
+    <link rel="stylesheet" href="https://cdn.skypack.dev/sanitize.css">
+
+
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
   </head>
 
   <body>
@@ -15,14 +20,11 @@
       <nav class="navbar">
         <div class="container">
           <div class="row col-12">
-
             <div class="col-5 my-auto">
-              <div class="row">
-                <div class="col-4 logo-box">
-                  <a class="navbar-logo" href="/">
-                    <i>K's<br>workshop</i>
-                  </a>
-                </div>
+              <div class="logo-box">
+                <%= link_to root_path do %>
+                  <%= image_tag 'logo2.png' %>
+                <% end %>
               </div>
             </div>
             <div class="col-7">
@@ -30,42 +32,42 @@
                 <div class="navbar-nav">
                   <ul class="btn-group">
                     <% if admin_signed_in? %>
-                      <%= link_to "/admin/posts" do %>
-                        <button type="button" class="btn btn-light"><%= image_tag 'post.png', width: '20%', height: '20%' %>投稿一覧</button>
+                      <%= link_to admin_posts_path do %>
+                        <button type="button" class="btn btn-outline-secondary"><%= image_tag 'post.png' %>投稿一覧</button>
                       <% end %>
 
-                      <%= link_to "/admin/users" do %>
-                        <button type="button" class="btn btn-light"><%= image_tag 'users.svg', width: '15%', height: '15%' %>ユーザ一覧</button>
+                      <%= link_to admin_users_path do %>
+                        <button type="button" class="btn btn-outline-secondary"><%= image_tag 'users.svg' %>ユーザ一覧</button>
                       <% end %>
 
                       <%= link_to "/admin/sign_out", method: :delete do %>
-                        <button type="button" class="btn btn-light"><%= image_tag 'logout.svg', width: '15%', height: '15%' %>ログアウト</button>
+                        <button type="button" class="btn btn-outline-secondary"><%= image_tag 'logout.svg' %>ログアウト</button>
                       <% end %>
 
                     <% elsif user_signed_in? %>
                       <%= link_to "/posts" do %>
-                        <button type="button" class="btn btn-light"><%= image_tag 'post.png', width: '20%', height: '20%' %>投稿一覧</button>
+                        <button type="button" class="btn btn-outline-secondary"><%= image_tag 'post.png' %>投稿一覧</button>
                       <% end %>
 
                       <%= link_to user_path(current_user) do %>
-                        <button type="button" class="btn btn-light"><%= image_tag 'mypage.svg', width: '15%', height: '15%' %>マイページ</button>
+                        <button type="button" class="btn btn-outline-secondary"><%= image_tag 'mypage.svg' %>マイページ</button>
                       <% end %>
 
                       <%= link_to "/users/sign_out", method: :delete do %>
-                        <button type="button" class="btn btn-light" ><%= image_tag 'logout.svg', width: '15%', height: '15%' %>ログアウト</button>
+                        <button type="button" class="btn btn-outline-secondary"><%= image_tag 'logout.svg' %>ログアウト</button>
                       <% end %>
 
                     <% else %>
                       <%= link_to "/posts" do %>
-                        <button type="button" class="btn btn-light"><%= image_tag 'post.png', width: '20%', height: '20%' %>投稿一覧</button>
+                        <button type="button" class="btn btn-outline-secondary"><%= image_tag 'post.png' %>投稿一覧</button>
                       <% end %>
 
                       <%= link_to "/users/sign_up" do %>
-                        <button type="button" class="btn btn-light"><%= image_tag 'beginner.svg', width: '10%', height: '10%' %>新規登録</button>
+                        <button type="button" class="btn btn-outline-secondary"><%= image_tag 'beginner.svg' %>新規登録</button>
                       <% end %>
 
                       <%= link_to "/users/sign_in" do %>
-                        <button type="button" class="btn btn-light"><%= image_tag 'login.svg', width: '15%', height: '15%' %>ログイン</button>
+                        <button type="button" class="btn btn-outline-secondary"><%= image_tag 'login.svg' %>ログイン</button>
                       <% end %>
 
                     <% end %>
@@ -73,19 +75,15 @@
                 </div>
               </div>
 
-              <div class="row justify-content-end">
-
-
-                <%= search_form_for @search, url: posts_path, local: true do |f| %>
-                  <%= f.text_field :title_or_post_text_or_post_tags_name_cont, class:'search' %>
-                  <%= f.submit %>
-                <% end %>
-
-                <%#= search_form_for @search, url: posts_path, local: true do |f| %>
-                  <%#= f.search_field :title_or_post_text_cont, class:"serch_fields", placeholder:"キーワードまたはタグを検索",value: params[:q][:title_or_post_text_cont] %>
-                  <%#= f.submit '検索', id:"search_button" %>
-                <%# end %>
+              <div class="row justify-content-end search_form">
+                  <%= search_form_for @search, url: posts_path, local: true do |f| %>
+                    <%= f.text_field :title_or_post_text_or_post_tags_name_cont, class:'search', placeholder:"キーワードまたはタグを検索" %>
+                    <%= f.button :type => "submit", class:'form-button' do %>
+                      <i class="fas fa-search"></i>
+                    <% end %>
+                  <% end %>
               </div>
+
 
             </div>
           </div>
@@ -96,6 +94,20 @@
     <main>
       <%= yield %>
     </main>
+
+    <footer>
+      <div class="container content-box">
+        <div class="row">
+          <div class="col-4">
+            <p>初心者DIYer達のコミュニティサイト</p>
+            <div><%= image_tag 'logo1.png' %></div>
+          </div>
+          <div class="col-3 ml-auto mt-auto">
+            <p>&copy; 2023 KOSUKE FUJINO</p>
+          </div>
+        </div>
+      </div>
+    </footer>
 
   </body>
 </html>

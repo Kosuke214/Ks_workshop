@@ -11,8 +11,10 @@ import "channels"
 import "jquery";
 import "popper.js";
 import "bootstrap";
+import "packs/application.css"; // webpackerでCSS読み込み
 import "../stylesheets/application"
 import '@fortawesome/fontawesome-free/js/all'
+require("../jquery.minipreview.js")
 
 Rails.start()
 Turbolinks.start()

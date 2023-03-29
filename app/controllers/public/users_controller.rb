@@ -11,10 +11,27 @@ module Public
     end
 
     def edit
-      @user = current_user
+      @user = User.find(params[:id])
+      unless @user == current_user # URLベタ打ちによる他ユーザ情報編集防止
+        redirect_to root_path
+      end
+      if @user.email == 'guest@example.com'
+        flash[:alret] = 'ゲストユーザは情報を編集できません。'
+        redirect_to  user_path(current_user)
+      end
     end
 
-    def update; end
+    def update
+      @user = User.find(params[:id])
+      if @user == current_user
+        @user.update(user_params)
+        flash[:notice] = '更新しました。'
+        redirect_to user_path(current_user)
+      else
+        flash[:alret] = '更新に失敗しました。'
+        render :edit
+      end
+    end
 
     def posts
       @posts = @user.posts.where(is_deleted: 'false').order(created_at: :desc).page(params[:page]).per(5)
@@ -36,6 +53,10 @@ module Public
     end
 
     private
+
+    def user_params
+      params.require(:user).permit(:last_name, :first_name, :nickname, :email, :password, :diy_history, :introduction, :profile_image)
+    end
 
     def configure_active_user
       @user = User.find(params[:id])

@@ -70,3 +70,5 @@ gem "enum_help"
 gem 'image_processing', '~> 1.2'
 
 gem 'rinku'
+
+gem 'bootstrap5-kaminari-views'

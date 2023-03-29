@@ -1,19 +1,19 @@
-<div class="container">
+<div class="container mt-3">
   <div class="col-sm-12 mx-auto">
-    <h3><%= image_tag 'comment.png', width: '5%', height: '5%' %>コメント詳細</h3>
+    <h3 class = "title"><span><%= image_tag 'comment.png' %>コメント詳細</span></h3>
 
 <%#　部分テンプレートにする　#%>
-    <div class = "col-8 mx-auto">
+    <div class = "col-8 mx-auto shadow color-reflection">
 
       <div class = "row justify-content-end">
         <%= @comment.created_at.strftime('%Y/%m/%d') %>
       </div>
 
       <div class = "row">
-        <div class = "col-2">
-          <%#= posts.get_image %>
+        <div class = "col-4">
+          <%= image_tag @comment.user.get_profile_image(100,100) %>
         </div>
-        <div class = "col-10">
+        <div class = "col-7">
           <div class = "row">
             <% if @comment.user.status == false %>
               <p class="text-danger">退会済みです</p>
@@ -30,10 +30,12 @@
       </div>
 
       <div class = "row">
-        <%= @comment.comment_text %>
+        <div class = "col-12 mx-auto">
+          <%= @comment.comment_text %>
+        </div>
       </div>
 
-      <div class = "row justify-content-end">
+      <div class = "row justify-content-end pb-3 pr-3">
         <%= link_to "<<投稿詳細に戻る",post_path(@comment.post_id), class:"text-secondary" %>
       </div>
 
@@ -42,7 +44,7 @@
   <div class = "col-8 mx-auto">
     <div class = "row justify-content-end">
       <% if @comment.user_id == current_user.id %>
-        <%= link_to "編集", edit_comment_path, class: 'btn btn-success mr-0' %>
+        <%= link_to "編集する", edit_comment_path, class: 'btn btn-success mr-0' %>
       <% end %>
     </div>
   </div>

@@ -1,0 +1,36 @@
+<div class="user-form">
+  <div class="row">
+    <label class="col-3">タイトル</label>
+    <div class="col-6">
+      <%= f.text_field :title, placeholder:"タイトル", class: "form-control", style: "width:100%" %>
+    </div>
+  </div>
+</div>
+
+<div class="user-form">
+  <div class="row">
+    <label class="col-3">関連タグ</label>
+    <div class="col-6">
+      <%#= f.label :tag_list %>
+      <%= f.text_field :name,  placeholder:"箱 収納 簡単", value: post_tags, class: "form-control", style: "width:100%" %>
+    </div>
+  </div>
+</div>
+
+<div class="user-form">
+  <div class="row">
+    <label class="col-3">本文</label>
+    <div class="col-6">
+      <%= f.text_area :post_text, placeholder:"（本文）制作物の説明や工夫したポイントなどご記入ください。""また参考URLもあればこちらの本文に記載いただくとより参考になります。", class: "form-control", style: "width:100%", rows: "10" %>
+    </div>
+  </div>
+</div>
+
+<div class="user-form">
+  <div class="row">
+    <label class="col-3">投稿画像</label>
+    <div class="col-6">
+      <%= f.file_field :post_image,accept: "image/*", placeholder:"ファイルを選択" %>
+    </div>
+  </div>
+</div>

@@ -31,7 +31,7 @@ module Public
     def guest_sign_in
       user = User.guest
       sign_in user
-      redirect_to root_path, notice: 'ゲストユーザとしてログインしました。' # rubocop:todo Rails/I18nLocaleTexts
+      redirect_to user_path(current_user), notice: 'ゲストユーザとしてログインしました。'
     end
 
     protected
@@ -45,7 +45,7 @@ module Public
 
       ## 【処理内容2】 取得したアカウントのパスワードと入力されたパスワードが一致してるかを判別
       if @user.valid_password?(params[:user][:password]) && (@user.status == false)
-        flash[:notice] = '退会済みです。再度ご登録をしてご利用ください。' # rubocop:todo Rails/I18nLocaleTexts
+        flash[:notice] = '退会済みです。再度ご登録をしてご利用ください。'
         redirect_to new_user_registration_path
         # statusの値がtrueだった場合→createアクションを実行させる＝そのまま処理
       end
