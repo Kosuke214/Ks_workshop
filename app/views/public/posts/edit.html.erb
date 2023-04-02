@@ -1,6 +1,7 @@
 <%= form_with model: @post, url: post_path, local: true do |f| %>
 
   <div class="container mt-3">
+    <%= render 'layouts/error_messages', model: f.object %>
     <p class="text-danger"><%= flash[:alret] %></p>
     <div class="col-sm-12 form-label mx-auto">
       <h3 class = "title"><span><%= @post.user.nickname %>さんの投稿編集</span></h3>

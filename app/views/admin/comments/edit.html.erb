@@ -1,19 +1,18 @@
-<div class="container">
-  <div class="col-sm-12 mx-auto">
-    <h3><%= image_tag 'comment.png' %>コメント編集</h3>
+<div class="container mt-3">
+  <div class="col-12 mx-auto">
+    <h3 class = "title"><span><%= image_tag 'comment.png' %>コメント編集</span></h3>
 
-<%#　部分テンプレートにする　#%>
-    <div class = "col-8 mx-auto">
+    <div class = "col-10 mx-auto post-area shadow color-reflection">
 
       <div class = "row justify-content-end">
         <%= @comment.created_at.strftime('%Y/%m/%d') %>
       </div>
 
       <div class = "row">
-        <div class = "col-2">
-          <%#= posts.get_image %>
+        <div class = "col-3 mx-auto">
+          <%= image_tag @comment.user.get_profile_image(150,150) %>
         </div>
-        <div class = "col-10">
+        <div class = "col-8">
           <div class = "row">
             <% if @comment.user.status == false %>
               <p class="text-danger">退会済みです</p>
@@ -30,27 +29,42 @@
       </div>
 
       <div class = "row">
-        <%= @comment.comment_text %>
+        <div class = "col-11">
+          <%= safe_join(@comment.comment_text.split("\n"),tag(:br)) %>
+        </div>
       </div>
 
       <div class = "row justify-content-end">
-        <%= link_to "<<投稿詳細に戻る",post_path(@comment.post_id), class:"text-secondary" %>
+        <%= link_to "<<投稿詳細に戻る",admin_post_path(@comment.post_id), class:"text-secondary" %>
       </div>
     </div>
-<%#　部分テンプレートにする　#%>
 
-    <div class = "col-8 mx-auto">
+    <div class = "col-10 mx-auto mt-5">
       <div class = "row justify-content-center">
-        <p><strong>不適切コメントの警告表示</strong></p>
-        <%= form_with model: @comment, url: admin_comment_path do |f| %>
-          <%= f.radio_button :is_hidden, true %>
-          <%= f.label :done, '表示', value: false, class:"text-danger" %>
+        <div class = "col-5">
+          <h4><strong>不適切コメントの警告表示</strong></h4>
+        </div>
+        <div class = "col-6">
+          <%= form_with model: @comment, url: admin_comment_path do |f| %>
+            <div class = "row">
+              <div class = "col-7">
+                <div>
+                  <%= f.radio_button :is_hidden, true %>
+                  <%= f.label :done, '表示', value: false, class:"text-danger" %>
 
-          <%= f.radio_button :is_hidden, false %>
-          <%= f.label :done, '非表示', value: false, class:"text-success" %>
+                  <%= f.radio_button :is_hidden, false %>
+                  <%= f.label :done, '非表示', value: false, class:"text-success" %>
+                </div>
+              </div>
 
-          <%= f.submit "更新" ,class:'btn btn-primary' %>
-        <% end %>
+              <div class = "col-2 ml-auto">
+                <div class = "row justify-content-end">
+                  <%= f.submit "更新" ,class:'btn btn-primary' %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

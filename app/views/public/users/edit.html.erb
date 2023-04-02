@@ -6,6 +6,7 @@
   <%= form_with model: @user, url: user_path, local: true do |f| %>
 
     <div class="container mt-3">
+      <%= render 'layouts/error_messages', model: f.object %>
       <p class="text-danger"><%= flash[:alret] %></p>
       <div class="col-sm-12 form-label mx-auto">
         <h3 class = "title"><span><%= image_tag 'mypage.svg' %>登録編集フォーム</span></h3>
@@ -39,6 +40,15 @@
               <label class="col-3">e-mail</label>
               <div class="col-4">
                 <%= f.text_field :email, placeholder:"sample@gmail.com", class: "w-100" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-form">
+            <div class="row">
+              <label class="col-3">パスワード</label>
+              <div class="col-4">
+                <%= f.password_field :password, placeholder:"６文字以上２０文字以内", class: "w-100" %>
               </div>
             </div>
           </div>

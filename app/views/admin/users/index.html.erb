@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container mt-3">
   <div class="col-sm-12 mx-auto">
-    <h3><%= image_tag 'users.svg' %>ユーザ一覧</h3>
+    <h3 class = "title"><span><%= image_tag 'users.svg' %>ユーザ一覧</span></h3>
 
     <div class = "col-8 mx-auto">
       <table class="table table-striped w-100">
@@ -38,7 +38,7 @@
 
     </div>
 
-    <div class="row justify-content-center"><%= paginate @users %></div>
+    <div class="row justify-content-center"><%= paginate @users,theme: 'bootstrap-5' %></div>
 
   </div>
 </div>

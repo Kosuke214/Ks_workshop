@@ -1,43 +1,75 @@
-<div class="container">
-  <div class="col-sm-12 mx-auto">
+<div class="container mt-3">
+  <div class="col-12 mx-auto">
     <div class = "row">
-      <%= image_tag 'post.png' %><h3>投稿編集</h3>
+      <h3 class = "title"><span><%= image_tag 'post.png' %>投稿編集</span></h3>
     </div>
 
-<%#　部分テンプレートにする　#%>
-    <div class = "col-8 mx-auto">
+    <div class = "col-10 mx-auto post-area shadow color-reflection">
       <div class = "row">
-        <div class = "col-5">
-          <%= image_tag @post.get_post_image(300, 300) %>
-        </div>
-        <div class = "col-7">
-          <div class = "row">
-            <h5>タイトル</h5>
-            <%= @post.title %>
+        <div class = "col-5 mt-3">
+          <div class = "row justify-content-center">
+            <%= image_tag @post.get_post_image(300, 300) %>
           </div>
+
+        </div>
+        <div class = "col-6 mt-3">
           <div class = "row">
-            <h5>本文</h5>
-            <%= @post.post_text %>
+              <div class = "col-12">
+                <div class = "row"><h5><span class = "stripe">タイトル</span></h5></div>
+                <%= @post.title %>
+              </div>
+            </div>
+
+            <div class = "row">
+              <div class = "col-12">
+                <div class = "row"><h5><span class = "stripe">本文</span></h5></div>
+                <%= raw Rinku.auto_link(safe_join(@post.post_text.split("\n"),tag(:br)), :all, 'target="_blank" class="Rinku"').html_safe %>
+
+                <%# プレビュー機能 %>
+                <script>
+                  $('a.Rinku').miniPreview({
+                    width: 256,
+                    height: 144,
+                    scale: .25,
+                    prefetch: 'pageload'
+                  });
+                </script>
+
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-
-<%#　部分テンプレートにする　#%>
-
-    <div class = "col-8 mx-auto">
+    <div class = "col-10 mx-auto mt-5">
       <div class = "row justify-content-center">
-        <p><strong>不適切投稿の警告表示</strong></p>
-        <%= form_with model: @post, url: admin_post_path do |f| %>
-          <%= f.radio_button :is_hidden, true %>
-          <%= f.label :done, '表示', value: false, class:"text-danger" %>
+        <div class = "col-5">
+          <h4><strong>不適切投稿の警告表示</strong></h4>
+        </div>
+        <div class = "col-6">
+            <%= form_with model: @post, url: admin_post_path, method: :patch do |f| %>
+              <div class = "row">
+                <div class = "col-6">
+                  <div>
+                    <%= f.radio_button :is_hidden, true %>
+                    <%= f.label :done, '表示', value: false, class:"text-danger" %>
 
-          <%= f.radio_button :is_hidden, false %>
-          <%= f.label :done, '非表示', value: false, class:"text-success" %>
+                    <%= f.radio_button :is_hidden, false %>
+                    <%= f.label :done, '非表示', value: false, class:"text-success" %>
+                  </div>
+                </div>
 
-          <%= f.submit "更新" ,class:'btn btn-primary' %>
-        <% end %>
+                <div class = "col-3 ml-auto">
+                  <div class = "row justify-content-end">
+                    <%= f.submit "更新" ,class:'btn btn-primary' %>
+                  </div>
+                </div>
+
+              </div>
+
+            <% end %>
+        </div>
       </div>
     </div>
   </div>

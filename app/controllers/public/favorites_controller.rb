@@ -1,7 +1,8 @@
 module Public
   class FavoritesController < ApplicationController
+    before_action :set_post, only: %i[create destroy]
+
     def create
-      @post = Post.find(params[:post_id])
       favorite = current_user.favorite.new(post_id: @post.id)
       if current_user.email == 'guest@example.com'
         flash[:alret] = 'ゲストユーザはいいねできません。'
@@ -12,10 +13,15 @@ module Public
     end
 
     def destroy
-      @post = Post.find(params[:post_id])
       favorite = current_user.favorite.find_by(post_id: @post.id)
       favorite.destroy
       redirect_to post_path(@post)
+    end
+
+    private
+
+    def set_post
+      @post = Post.find(params[:post_id])
     end
   end
 end

@@ -3,6 +3,7 @@
 
   <div class="container mt-3">
     <div class="col-sm-12 form-label mx-auto">
+      <%= render 'layouts/error_messages', model: f.object %>
       <h3 class = "title"><span>新規登録フォーム</span></h3>
 
       <%= render :partial => "form", :locals => {:f => f, user: @user} %>

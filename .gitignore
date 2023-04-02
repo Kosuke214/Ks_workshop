@@ -38,3 +38,6 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+#デプロイ用、.envファイルに記載したデータベースの情報がGitのトラッキングから除外
+/.env

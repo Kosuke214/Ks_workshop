@@ -57,7 +57,7 @@
                   <%= image_tag 'error_rogo.svg', size: '100x100' %>
                 </div>
                 <div class = "col-6">
-                  <div class = "row"><span class = "text-danger"><%= posts.title %></span></div>
+                  <div class = "row"><span class = "text-danger"><%= posts.title.truncate(10) %></span></div>
                   <div class = "row"><span class = "text-secondary"><%= posts.post_text.truncate(10) %></span></div>
                 </div>
               <% else %>
@@ -67,7 +67,7 @@
                 <div class = "col-6">
                   <div class = "row">
                     <%= link_to post_path(posts.id) do %>
-                      <%= posts.title %>
+                      <%= posts.title.truncate(10) %>
                     <% end %>
                   </div>
                   <div class = "row"><%= posts.post_text.truncate(10) %></div>
@@ -102,7 +102,7 @@
               <div class = "col-6">
                 <div class = "row">
                   <%= link_to post_path(favorites.post.id) do %>
-                    <%= favorites.post.title %>
+                    <%= favorites.post.title.truncate(10) %>
                   <% end %>
                 </div>
                 <div class = "row"><%= favorites.post.post_text.truncate(10) %></div>

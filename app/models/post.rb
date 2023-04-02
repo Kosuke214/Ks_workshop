@@ -7,6 +7,9 @@ class Post < ApplicationRecord
   has_many :tagmaps, dependent: :destroy
   has_many :post_tags, through: :tagmaps
 
+  validates :title, length: { in: 1..40 }
+  validates :post_text, length: { in: 1..400 }
+
   # 投稿画像の設定
   def get_post_image(width, height)
     unless post_image.attached?

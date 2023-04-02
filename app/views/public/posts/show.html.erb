@@ -1,10 +1,11 @@
 <div class="container mt-3">
-  <p class="text-success"><%= flash[:notice] %></p>
-  <p class="text-danger"><%= flash[:alret] %></p>
   <% unless user_signed_in? %> <%# ログイン中のユーザのみ投稿詳細を閲覧可能 %>
     <h3 class = "text-danger">こちらのページはログイン中のユーザのみ閲覧可能です。</h3>
   <% else %>
     <div class="col-sm-12 mx-auto">
+      <%#= render 'layouts/error_messages', model: f.object %>
+      <p class="text-success"><%= flash[:notice] %></p>
+      <p class="text-danger"><%= flash[:alret] %></p>
       <div class = "row">
         <div class = "col-5 mx-auto">
           <div class = "row">
@@ -68,7 +69,6 @@
 
               </div>
             </div>
-
 
             <div class = "row">
               <%= image_tag 'tag.png' %><span class = "width-padding mr-2">関連タグ</span>

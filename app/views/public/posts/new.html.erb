@@ -8,6 +8,7 @@
 
     <div class="container mt-3">
       <div class="col-sm-12 form-label mx-auto">
+        <%= render 'layouts/error_messages', model: f.object %>
         <h3 class = "title"><span><%= image_tag 'post.png' %>新規投稿</span></h3>
 
         <%= render :partial => "post_form", :locals => {:f => f, post_tags: @post_tags} %>

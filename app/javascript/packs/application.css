@@ -80,7 +80,7 @@ h4 {
   position: relative;
   margin: 0;
   padding: 0;
-  background-image: url(../../assets/images/top.png);
+  background-image: url("../images/top.png");
   background-size: cover;
   background-position: center center;
 }
@@ -169,7 +169,7 @@ textarea {
 
 .content-end {
   position: absolute!important;
-  right: 10px;
+  right: 20px;
   bottom: 5px;
 }
 
@@ -217,4 +217,21 @@ h3 span {
 	height: 4px;
 	background: repeating-linear-gradient(-45deg, #324851, #324851 2px, #fff 2px, #fff 4px);
 }
+
+input[type=radio] {
+	transform: scale(2);
+	margin: 0 10px 0 0;
+}
+
+label {
+  margin-right: 20px;
+  font-size: large;
+}
+
+.error_massage {
+   color: #262626;
+   background: #FFEBE8;
+   border: 2px solid #990000;
+ }
+
 

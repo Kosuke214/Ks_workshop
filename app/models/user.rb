@@ -14,6 +14,17 @@ class User < ApplicationRecord
 
   has_one_attached :profile_image
 
+  with_options length: { in: 1..255 } do
+    validates :email
+    validates :introduction
+  end
+
+  with_options length: { in: 1..20 } do
+    validates :last_name
+    validates :first_name
+    validates :nickname
+  end
+
   def get_profile_image(width, height)
     unless profile_image.attached?
       file_path = Rails.root.join('app/assets/images/no_profile.jpg')
@@ -38,5 +49,19 @@ class User < ApplicationRecord
   def hidden
     self.title = '表示が規制されております。'
     self.post_text = 'こちらの投稿は不適切な内容が含まれている可能性があるため、管理者により表示を規制されております。'
+  end
+
+  # パスワードなしでユーザ情報変更の許可
+  def update_without_current_password(params, *options)
+    params.delete(:current_password)
+
+    if params[:password].blank? && params[:password_confirmation].blank?
+      params.delete(:password)
+      params.delete(:password_confirmation)
+    end
+
+    result = update(params, *options)
+    clean_up_passwords
+    result
   end
 end

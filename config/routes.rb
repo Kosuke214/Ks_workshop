@@ -4,11 +4,12 @@ Rails.application.routes.draw do
 
   root to: 'public/homes#top'
 
-  devise_for :admin, skip: %i[registrations passwords], controllers: {
+  devise_for :admin, controllers: {
+    registrations: 'public/registrations',
     sessions: 'admin/sessions'
   }
 
-  devise_for :users, skip: [:passwords], controllers: {
+  devise_for :users, controllers: {
     registrations: 'public/registrations',
     sessions: 'public/sessions'
   }

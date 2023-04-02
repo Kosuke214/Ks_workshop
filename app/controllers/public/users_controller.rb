@@ -1,6 +1,7 @@
 module Public
   class UsersController < ApplicationController
     before_action :configure_active_user, only: %i[show posts]
+    before_action :set_user, only: %i[edit update]
 
     def show
       # where(is_deleted: 'false') 削除フラグ以外のレコードを取得
@@ -11,20 +12,20 @@ module Public
     end
 
     def edit
-      @user = User.find(params[:id])
       unless @user == current_user # URLベタ打ちによる他ユーザ情報編集防止
         redirect_to root_path
       end
       if @user.email == 'guest@example.com'
         flash[:alret] = 'ゲストユーザは情報を編集できません。'
-        redirect_to  user_path(current_user)
+        redirect_to user_path(current_user)
       end
     end
 
     def update
-      @user = User.find(params[:id])
-      if @user == current_user
-        @user.update(user_params)
+      return unless @user == current_user
+
+      if @user.update(user_params)
+        sign_in(@user, bypass: true) if current_user.id == @user.id
         flash[:notice] = '更新しました。'
         redirect_to user_path(current_user)
       else
@@ -53,6 +54,10 @@ module Public
     end
 
     private
+
+    def set_user
+      @user = User.find(params[:id])
+    end
 
     def user_params
       params.require(:user).permit(:last_name, :first_name, :nickname, :email, :password, :diy_history, :introduction, :profile_image)

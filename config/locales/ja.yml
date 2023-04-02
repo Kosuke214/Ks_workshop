@@ -9,12 +9,27 @@ ja:
         over_three_years: "３年以上"
 
   activerecord:
+    attributes:
+      user:
+        last_name: 名字
+        first_name: 名前
+        nickname: ニックネーム
+        email: メールアドレス
+        password: パスワード
+        introduction: 紹介文
+      comment:
+        comment_text: コメント
+      post:
+        title: タイトル
+        post_text: 本文
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
+
+
   date:
     abbr_day_names:
     - 日

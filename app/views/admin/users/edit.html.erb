@@ -1,14 +1,17 @@
-<div class="container">
+<div class="container mt-3">
   <div class="col-sm-12 mx-auto">
-    <h3><%= image_tag 'users.svg' %>ユーザ情報編集</h3>
+    <h3 class = "title"><span><%= image_tag 'users.svg' %>ユーザ情報編集</span></h3>
 
     <div class = "col-10 mx-auto">
       <div class="row">
-        <div class="col-2">
-          <%#= image_tag @user.get_image %>
+        <div class="col-3">
+          <div class = "row">
+            <%= image_tag @user.get_profile_image(200,200) %>
+          </div>
+
         </div>
 
-        <div class="col-10">
+        <div class="col-8">
           <table class="table table-bordered w-100">
             <tr>
               <th class="col-3 table-secondary">ニックネーム</th>
@@ -32,12 +35,12 @@
 
             <tr>
               <th class="col-3 table-secondary">紹介文</th>
-              <td class="col-7"><%= @user.introduction %></td>
+              <td class="col-7"><%= raw safe_join(@user.introduction.split("\n"),tag(:br)) %></td>
             </tr>
 
           </table>
 
-          <%= form_with model: @user, url: admin_user_path do |f| %>
+          <%= form_with model: @user, url: admin_user_path, method: :patch do |f| %>
 
             <div class="row justify-content-center">
               <label class="col-3">ステータス</label>
