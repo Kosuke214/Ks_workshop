@@ -79,6 +79,7 @@ gem 'rails-i18n', '~> 6.0.0'
 gem 'dotenv-rails'
 group :production do
   gem 'mysql2'
+  gem 'acts-as-taggable-on', github: 'mbleigh/acts-as-taggable-on', branch: 'master'
 end
 
 gem "net-smtp"
