@@ -59,12 +59,14 @@
 
                 <%# プレビュー機能 %>
                 <script>
-                  $('a.Rinku').miniPreview({
-                    width: 256,
-                    height: 144,
-                    scale: .25,
-                    prefetch: 'pageload'
-                  });
+                  $(function() {
+                   $('a.Rinku').miniPreview({
+                     width: 256,
+                     height: 144,
+                     scale: .25,
+                     prefetch: 'pageload'
+                   })
+                  })
                 </script>
 
               </div>

@@ -1,6 +1,9 @@
 class DropTableTags < ActiveRecord::Migration[6.1]
-  def change
-    drop_table :tags do # rubocop:todo Lint/EmptyBlock
-    end
+  def up
+    drop_table :tags
+  end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration
   end
 end

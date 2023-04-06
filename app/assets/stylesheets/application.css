@@ -13,3 +13,240 @@
  *= require_tree .
  *= require_self
  */
+@import '~bootstrap/scss/bootstrap';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Opti&family=Noto+Sans+JP&display=swap');
+
+/*全体用*/
+header,footer {
+  background: rgba(50,72,81,0.1);
+  font-family: 'Kaisei Opti', 'Meiryo', 'sans-serif';
+}
+
+footer {
+  margin-top: -10px;
+  padding: 10px 0;
+}
+
+body {
+  font-family: 'Noto Sans JP', 'Meiryo', 'sans-serif';
+}
+
+main {
+  min-height: 800px;
+}
+
+main div {
+  margin: 0 5px 10px 5px;
+}
+
+.btn-outline-secondary {
+  border: none!important;
+  height: 40px;
+  width: 150px;
+  margin-left: 10px;
+}
+
+img {
+  object-fit: contain;
+  height: 85%
+}
+
+h3 {
+  height: 33px;
+}
+
+h4 {
+  height: 30px;
+}
+
+
+
+/*色設定用*/
+.color-blue_pine {
+  background: rgba(50,72,81,0.5);
+}
+
+.color-new_grass {
+  background: rgba(134,172,65,0.7);
+}
+
+.color-reflection {
+  background: rgba(52,103,92,0.1);
+}
+
+.color-mist {
+  background: rgba(125,163,161,0.1);
+}
+
+.color-black {
+  background: rgba(0,0,0,0.5);
+}
+
+/*トップページ用*/
+.top-message {
+  color: white;
+  font-family: 'Kaisei Opti', 'Meiryo', 'sans-serif';
+}
+
+.h-600 {
+  height: 800px;
+}
+
+.main-image {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background-image: url("../images/top.png");
+  background-size: cover;
+  background-position: center center;
+}
+
+.top-message {
+  font-size: x-large;
+  padding-top: 10%;
+}
+
+.top-contents {
+  color: white;
+  padding: 5px;
+}
+
+/*フォーム用*/
+input[type="text"], input[type="password"], input[type="email"] {
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.form-control {
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+textarea {
+  border: 1px solid;
+  border-radius: 10px;
+  resize:none;
+}
+
+.search_form {
+  border-radius: 10px;
+}
+
+.post_search {
+  display: flex;
+  border: 1px solid;
+  border-color:  #6c757d;
+  border-radius: 10px;
+  width: 300px;
+  height: 40px;
+}
+
+.search {
+  border-radius: 10px 0 0 10px !important;
+  border: none !important;
+  width: 100%;
+}
+
+.form-button {
+  padding: 0 10px;
+  margin: 0;
+  border-radius: 0 10px 10px 0;
+  transform: scale(1, 1);
+  background-color: gray;
+  border: none;
+  color: lightgray;
+}
+
+/*コンテンツ用*/
+.list {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 50px;
+  padding-right: 15px;
+}
+
+.list:last-child {
+  margin-bottom: 30px;
+}
+
+.top-margin {
+  margin-top: -30px;
+}
+
+.shadow {
+  border-radius: 3px;
+  box-shadow: 0 0px 20px rgba(0,0,0,0.2);
+}
+
+.content-box {
+  position: relative;
+}
+
+.content-end {
+  position: absolute!important;
+  right: 20px;
+  bottom: 5px;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+h3 span {
+  padding: 10px; /* 余白 */
+	background-color: rgba(134,172,65,0.3); /* 背景色 */
+	border-left: 2px dotted rgba(0,0,0,0.1); /* 左の切れ端 */
+	border-right: 2px dotted rgba(0,0,0,0.1); /* 右の切れ端 */
+	box-shadow: 0 0 5px rgba(0,0,0,0.2); /* 影 */
+
+}
+
+.profile-area {
+  color: #34675C;
+  background: rgba(125,163,161,0.4);
+  border-radius: 10px;
+  padding: 10px 10px 50px 10px;
+}
+
+.profile-area > div {
+ margin: 0 5px 10px 5px;
+}
+
+.post-area > div, .post-area > span {
+  padding: 10px;
+}
+
+.width-padding {
+  padding: 0 5px;
+}
+
+.stripe {
+	position: relative;
+}
+.stripe:after {
+  content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 4px;
+	background: repeating-linear-gradient(-45deg, #324851, #324851 2px, #fff 2px, #fff 4px);
+}
+
+input[type=radio] {
+	transform: scale(2);
+	margin: 0 10px 0 0;
+}
+
+label {
+  margin-right: 20px;
+  font-size: large;
+}
+
+.error_massage {
+   color: #262626;
+   background: #FFEBE8;
+   border: 2px solid #990000;
+ }
