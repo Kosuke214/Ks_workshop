@@ -7,6 +7,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+Admin.create!(email: ENV['ADMIN_EMAIL'], password: ENV['ADMIN_PASSWORD'])
+
 users = User.create!(
   [
     {email: 'hanako@example.com', last_name: '山田', first_name: '花子', nickname: 'ハナコ', diy_history: 0, introduction: '始めたばかりの初心者ですが、みなさんと一緒に上達していきたいと思います！', password: 'password', status: true, profile_image: ActiveStorage::Blob.create_and_upload!(io: File.open("#{Rails.root}/db/fixtures/sample-user2.png"), filename:"sample-user2.png")},
@@ -31,3 +33,4 @@ Comment.create!(
     {comment_text: "こちらのインパクト、私も欲しいと思っていました。今度レビューもぜひ投稿いただけたら大変参考になります！", is_deleted: false, is_hidden: false, user_id: users[1].id, post_id: posts[2].id }
   ]
 )
+
