@@ -41,7 +41,7 @@ class User < ApplicationRecord
       user.nickname = 'ゲスト'
       user.password = SecureRandom.urlsafe_base64 # パスワードはランダムで設定
       user.diy_history = 0
-      user.introduction = 'ゲストログイン中'
+      user.introduction = 'ゲストログイン中は投稿閲覧のみ可能となっております。投稿やコメント、いいね機能は新規登録後に利用可能です。'
     end
   end
 
