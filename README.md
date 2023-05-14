@@ -28,7 +28,7 @@ DIYが好きで、色々作ってみています。<br>
 https://docs.google.com/spreadsheets/d/1sDFA-bysiizFOR-8MYap9ffznt14VCtfltkselctySM/edit?usp=sharing
 
 ## 開発環境
-- OS：Linux(CentOS)
+- OS：Linux(Amazon Linux2)
 - 言語：HTML,CSS,JavaScript,Ruby,SQL
 - フレームワーク：Ruby on Rails
 - JSライブラリ：jQuery
